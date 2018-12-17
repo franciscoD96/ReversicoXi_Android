@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ReversISEC2</string>
+    <string name="title_activity_pvs_ai_">PvsAI_Activity</string>
 </resources>

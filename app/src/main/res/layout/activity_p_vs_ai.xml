@@ -2,21 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TabuleiroActivity"
+    tools:context=".GameActivities.PvsAI_Activity"
 
     android:padding="20dp"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     >
 
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:id="@+id/tv1"/>
 
     <!--tabuleiro-->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="left"
+        android:layout_gravity="center"
         android:orientation="vertical">
 
         <LinearLayout
@@ -105,6 +109,8 @@
                 android:padding="1sp"
                 android:src="@drawable/vazia" />
         </LinearLayout>
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -190,6 +196,8 @@
                 android:padding="1sp"
                 android:src="@drawable/vazia" />
         </LinearLayout>
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -275,6 +283,8 @@
                 android:padding="1sp"
                 android:src="@drawable/vazia" />
         </LinearLayout>
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -360,6 +370,8 @@
                 android:padding="1sp"
                 android:src="@drawable/vazia" />
         </LinearLayout>
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -445,6 +457,8 @@
                 android:padding="1sp"
                 android:src="@drawable/vazia" />
         </LinearLayout>
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -530,6 +544,8 @@
                 android:padding="1sp"
                 android:src="@drawable/vazia" />
         </LinearLayout>
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -615,6 +631,8 @@
                 android:padding="1sp"
                 android:src="@drawable/vazia" />
         </LinearLayout>
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -703,31 +721,16 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:id="@+id/tv1"/>
-
-        <android.support.v7.widget.AppCompatButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Novo Jogo"
-            android:id="@+id/btnNovoJogo"/>
-
-        <android.support.v7.widget.AppCompatButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Jogada"
-            android:id="@+id/btnJogada"/>
+    <android.support.v7.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Atualiza tabuleiro"
+        android:id="@+id/btnAtualTab"/>
 
 
-    </LinearLayout>
 </LinearLayout>
-

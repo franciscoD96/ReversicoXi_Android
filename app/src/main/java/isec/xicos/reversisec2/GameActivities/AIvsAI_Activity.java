@@ -1,25 +1,22 @@
-package isec.xicos.reversisec2;
+package isec.xicos.reversisec2.GameActivities;
 
-import android.media.Image;
-import android.os.Parcelable;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatButton;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
 
+import isec.xicos.reversisec2.R;
 import isec.xicos.reversisec2.Reversi.Celula;
 import isec.xicos.reversisec2.Reversi.ReversicoXi;
 
 import static android.widget.Toast.makeText;
 
-public class TabuleiroActivity extends AppCompatActivity {
+public class AIvsAI_Activity extends AppCompatActivity {
 
     ReversicoXi reversi;
 
@@ -28,7 +25,7 @@ public class TabuleiroActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_ai_vs_ai);
 
         tv1 = findViewById(R.id.tv1);
 
@@ -63,16 +60,6 @@ public class TabuleiroActivity extends AppCompatActivity {
     }
 
     public void onClickCampoJogo(View view) {
-        ImageView iv = (ImageView) view;
-
-        String nome = getResources().getResourceEntryName(iv.getId());
-        int x = Character.getNumericValue(nome.charAt(1));
-        int y = Character.getNumericValue(nome.charAt(3));
-
-        Toast.makeText(getApplicationContext(),
-                "" + x + " " + y ,
-                Toast.LENGTH_SHORT).show();
-
 
     }
 

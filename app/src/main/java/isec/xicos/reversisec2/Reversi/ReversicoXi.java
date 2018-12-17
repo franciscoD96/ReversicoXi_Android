@@ -209,15 +209,26 @@ public class ReversicoXi implements Serializable {
 
         return contador;
     }
+    private void passarTurno() {
+        limpaMarcadoresJogaveis();
+        if(jogadorAtual == 1) jogadorAtual = 2;
+        else jogadorAtual = 1;
+    }
 
-    List<List<Celula>> campo;
-    public List<List<Celula>> getCampo() { return campo; }
-    List<Coord> posJogaveis;
-    List<List<Coord>> posAComer;
-    int jogadorAtual = 1;
-    public int getJogadorAtual() { return jogadorAtual; }
+    private List<List<Celula>> campo;       public List<List<Celula>> getCampo() { return campo; }
+    private List<Coord> posJogaveis;        public List<Coord> getPosJogaveis() { return posJogaveis; }
+    private List<List<Coord>> posAComer;
+    private List<List<List<Celula>>> historicoJogo = new ArrayList<>();
+    private int jogadorAtual = 1;           public int getJogadorAtual() { return jogadorAtual; }
 
-    public ReversicoXi() {
+
+    public boolean checkIsJogadaValida(Coord c) {
+        for (Coord co : posJogaveis)
+            if (co.getX() == c.getX() && co.getY() == c.getY())
+                return true;
+        return false;
+    }
+    private void inicializaCampo() {
         this.campo = new ArrayList<List<Celula>>();
         for(int i = 0; i < 8; i++)
             campo.add( new ArrayList<Celula>());
@@ -229,35 +240,29 @@ public class ReversicoXi implements Serializable {
         campo.get(3).get(4).setPreto();
         campo.get(4).get(3).setPreto();
     }
+    public ReversicoXi() {
+        inicializaCampo();
+    }
 
-    public void jogoAIvsAI() {
-
-        HashMap<Coord, Integer> nrPontosObtidosPorJogada;
-
-        Scanner sc = new Scanner(System.in);
-        int jogador = 1;
-        while(true) {
-            System.out.println("Jogador " + jogador);
-            marcaPosicoesLivres(jogador);
-//            imprimeCampo(campo);
+    public ReversicoXi(int player) {
+        inicializaCampo();
+        jogadorAtual = player;
+        marcaPosicoesLivres(jogadorAtual);
+    }
 
 
-            // bot aleatório
-            Collections.shuffle(posJogaveis);
-            Coord jogada = posJogaveis.get(0);
-            System.out.println("vai meter a peça em: " + jogada.getX() + " " + jogada.getY());
-            realizaJogada(jogador, jogada.getX(), jogada.getY());
+    public int testarFimDeJogada(int playingPlayer) {
 
-            limpaMarcadoresJogaveis();
+        /* retorna qual o próximo jogador a jogar.
+        pode tanto ser o mesmo, caso não haja jogadas para o adversário
+        ou pode ser ENDGAME, se o tabuleiro estiver cheio . */
 
-            if(jogador == 1) jogador = 2;
-            else jogador = 1;
 
-            sc.nextLine();
-        }
-      }
+        return playingPlayer;
+    }
 
-    public void AIvsAI2() { }
+
+    public void jogadaAIvsAImelhorJogada() { }
               /*// bot a jogar a jogada que dá mais pontos
             nrPontosObtidosPorJogada = new HashMap<>(posJogaveis.size());
             for (Coord c : posJogaveis) {
@@ -268,15 +273,24 @@ public class ReversicoXi implements Serializable {
             }*/
 
 
-    public void PvsAI() { }
 
     public int jogadaAIvsAI() {
 
         marcaPosicoesLivres(jogadorAtual);
+
+        //guardar mapa p o historico
+        historicoJogo.add(campo); //                TODO
+
+
+        /*TODO:
         // if posicoesLivres == 0
         //      testar se o inimigo pode jogar
         // else
-        //      end game
+        //      end game*/
+
+
+
+
         Collections.shuffle(posJogaveis);
         Coord jogada = posJogaveis.get(0);
         realizaJogada(jogadorAtual, jogada.getX(), jogada.getY());
@@ -287,4 +301,25 @@ public class ReversicoXi implements Serializable {
 
         return jogadorAtual;
     }
+
+
+
+
+    // Activity PvsAI
+    public void jogadaAI() {
+        marcaPosicoesLivres(jogadorAtual); // para obter as posições livres
+
+        Collections.shuffle(posJogaveis);
+        Coord jogada = posJogaveis.get(0);
+
+        realizaJogada(jogadorAtual, jogada.getX(), jogada.getY());
+        passarTurno();
+
+        marcaPosicoesLivres(jogadorAtual);
+    }
+    public void jogadaUser(Coord j) {
+        realizaJogada(jogadorAtual, j.getX(), j.getY());
+        passarTurno();
+    }
+    // -- Activity PvsAI --
 }
