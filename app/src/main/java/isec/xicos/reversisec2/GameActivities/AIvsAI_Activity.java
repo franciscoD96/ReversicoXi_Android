@@ -35,8 +35,14 @@ public class AIvsAI_Activity extends AppCompatActivity {
             actualizaTabuleiro( reversi.getCampo() );
         });
         findViewById(R.id.btnJogada).setOnClickListener(listener -> {
-            tv1.setText("Jogador: " + reversi.jogadaAIvsAI() );
-            actualizaTabuleiro( reversi.getCampo() );
+            int jog =  reversi.jogadaAIvsAI();
+            if(jog == 0){
+                reversi = new ReversicoXi();
+                tv1.setText("Jogador: 1");
+            }else {
+                tv1.setText("Jogador: " + jog);
+                actualizaTabuleiro(reversi.getCampo());
+            }
         });
     }
 

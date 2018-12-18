@@ -303,9 +303,10 @@ public class ReversicoXi implements Serializable {
         int testaJogada;//guarda o jogador do inicio
         testaJogada = testarFimDeJogada(jogadorAtual);
 
-        if(testaJogada == 0)//nenhum dos jogadores pode jogar
+        if(testaJogada == 0) {//nenhum dos jogadores pode jogar
+            //return testaJogada;
             inicializaCampo();
-        else {
+        }else {
             jogadorAtual = testaJogada;//passa para o inimigo
             marcaPosicoesLivres(jogadorAtual);
 
