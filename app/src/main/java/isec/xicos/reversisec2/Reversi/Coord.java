@@ -1,6 +1,8 @@
 package isec.xicos.reversisec2.Reversi;
 
-public class Coord {
+import java.io.Serializable;
+
+public class Coord implements Serializable {
     int x, y;
     public Coord(int x, int y) {
         this.x = x;

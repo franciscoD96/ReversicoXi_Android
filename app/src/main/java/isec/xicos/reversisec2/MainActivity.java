@@ -3,6 +3,7 @@ package isec.xicos.reversisec2;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -32,9 +33,10 @@ public class MainActivity extends AppCompatActivity {
         });
         findViewById(R.id.startPvsAIgame).setOnClickListener(listener -> {
             String jogarComo = (String)((RadioButton) findViewById(((RadioGroup) findViewById(R.id.RG_PvsAI_numPlayer)).getCheckedRadioButtonId())).getText();
+
             int playerN = 0;
-            if(jogarComo == "Brancas") playerN = 1;
-            else if (jogarComo == "Pretas") playerN = 2;
+            if(jogarComo.equals("Brancas")) playerN = 1;
+            else if (jogarComo.equals("Pretas")) playerN = 2;
 
             Intent i = new Intent(this, PvsAI_Activity.class).
                     putExtra("NivelAI", ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.RG_PvsAI_AIlvl)).getCheckedRadioButtonId())).getText()).

@@ -31,7 +31,6 @@ public class PvsAI_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_p_vs_ai);
 
-        ((LinearLayout) findViewById(R.id.LLtabuleiro)).setMinimumHeight(( findViewById(R.id.LLlinha1).getHeight() ));
 
         if (savedInstanceState != null)
             reversi = (ReversicoXi) savedInstanceState.getSerializable("reversi");

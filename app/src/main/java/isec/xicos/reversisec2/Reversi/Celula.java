@@ -1,6 +1,8 @@
 package isec.xicos.reversisec2.Reversi;
 
-public class Celula {
+import java.io.Serializable;
+
+public class Celula implements Serializable {
     boolean branco, preto, jogavel;
     Celula () { branco = false; preto = false; jogavel = false; }
     public void setBranco() { branco = true; preto = false; jogavel = false; }
