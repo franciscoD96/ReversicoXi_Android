@@ -1,12 +1,11 @@
 package isec.xicos.reversisec2.Reversi;
 
-import android.util.Log;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import static java.lang.Math.abs;
@@ -254,29 +253,8 @@ public class ReversicoXi implements Serializable {
 
 
     public int testarFimDeJogada(int playingPlayer) {
-        //TODO remover debugging
-        int jogPassado = playingPlayer;//guarda o jogador do inicio
 
-        marcaPosicoesLivres(jogadorAtual);
-        if (posJogaveis.size() == 0) {
-            Log.d("testarFimDeJogada", "posJogaveis == 0 \nJog = " + playingPlayer);
-            playingPlayer = (playingPlayer == 1) ? 2 : 1;//se jogador ==1 ele retorna o jogador 2, senao retorna 1
-            Log.d("testarFimDeJogada", "JogAtual = " + playingPlayer);
-        }
-        else {
-            limpaMarcadoresJogaveis();
-        }
-
-
-
-        if(jogPassado != playingPlayer) {
-            marcaPosicoesLivres(jogadorAtual);
-            if (posJogaveis.size() == 0) {
-                Log.d("testarFimDeJogada", "Fim de Jogo");
-                limpaMarcadoresJogaveis();
-                playingPlayer = 0;
-            }
-        }
+        //pode guardar aqui o tabuleiro actual para ver o
 
         /* retorna qual o próximo jogador a jogar.
         pode tanto ser o mesmo, caso não haja jogadas para o adversário
@@ -287,51 +265,67 @@ public class ReversicoXi implements Serializable {
     }
 
 
-    public void jogadaAIvsAImelhorJogada() { }
-              /*// bot a jogar a jogada que dá mais pontos
-            nrPontosObtidosPorJogada = new HashMap<>(posJogaveis.size());
-            for (Coord c : posJogaveis) {
-                nrPontosObtidosPorJogada.put(c, calculaPontosGanhos(jogador, c.getX(), c.getY()));
-
-                System.out.println("Pontos obtidos ao jogar em " + "x:" + c.getX() + " y:" + c.getY()
-                 + " -> " + nrPontosObtidosPorJogada.get(c));
-            }*/
 
 
 
     public int jogadaAIvsAI() {
-        int testaJogada;//guarda o jogador do inicio
-        testaJogada = testarFimDeJogada(jogadorAtual);
 
-        if(testaJogada == 0) {//nenhum dos jogadores pode jogar
-            //return testaJogada;
-            inicializaCampo();
-        }else {
-            jogadorAtual = testaJogada;//passa para o inimigo
-            marcaPosicoesLivres(jogadorAtual);
+        marcaPosicoesLivres(jogadorAtual);
 
-            //guardar mapa p o historico
-            historicoJogo.add(campo); //                TODO
+        //guardar mapa p o historico
+        historicoJogo.add(campo); //                TODO
 
-            Collections.shuffle(posJogaveis);
-            Coord jogada = posJogaveis.get(0);
-            realizaJogada(jogadorAtual, jogada.getX(), jogada.getY());
-            limpaMarcadoresJogaveis();
 
-        }
+        /*TODO:
+        // if posicoesLivres == 0
+        //      testar se o inimigo pode jogar
+        // else
+        //      end game*/
+
+
+
+
+        Collections.shuffle(posJogaveis);
+        Coord jogada = posJogaveis.get(0);
+        realizaJogada(jogadorAtual, jogada.getX(), jogada.getY());
+        limpaMarcadoresJogaveis();
 
         if(jogadorAtual == 1) jogadorAtual = 2;
         else jogadorAtual = 1;
 
         return jogadorAtual;
-
     }
 
 
 
+    public void jogadaSmartAI() {
+
+        marcaPosicoesLivres(jogadorAtual); // para obter as posições livres
+
+        if (posJogaveis.size() > 0) {
+            Coord aJogar = null;
+            int maiorNrdePontos = 0;
+            Map<Coord, Integer> nrPontosObtidosPorJogada;
+
+            nrPontosObtidosPorJogada = new HashMap<>(posJogaveis.size());
+            for (Coord c : posJogaveis) {
+                nrPontosObtidosPorJogada.put(c, calculaPontosAGanhar(jogadorAtual, c.getX(), c.getY()));
+                if (maiorNrdePontos < nrPontosObtidosPorJogada.get(c))
+                    aJogar = c; // guarda esta coordenada que tem um maior número de peças a comer
+            }
+
+
+            realizaJogada(jogadorAtual, aJogar.getX(), aJogar.getY());
+            passarTurno();
+        } else {
+
+        }
+
+        marcaPosicoesLivres(jogadorAtual);
+    }
 
     // Activity PvsAI
-    public void jogadaAI() {
+    public void jogadaDumbAI() {
         marcaPosicoesLivres(jogadorAtual); // para obter as posições livres
 
         Collections.shuffle(posJogaveis);

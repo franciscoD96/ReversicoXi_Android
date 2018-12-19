@@ -1,25 +1,25 @@
 package isec.xicos.reversisec2.GameActivities;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
-import java.util.Random;
 
 import isec.xicos.reversisec2.R;
 import isec.xicos.reversisec2.Reversi.Celula;
 import isec.xicos.reversisec2.Reversi.Coord;
 import isec.xicos.reversisec2.Reversi.ReversicoXi;
 
-import static java.lang.Math.random;
 
 public class PvsAI_Activity extends AppCompatActivity {
 
@@ -31,13 +31,25 @@ public class PvsAI_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_p_vs_ai);
 
-        reversi = new ReversicoXi(2);
+        ((LinearLayout) findViewById(R.id.LLtabuleiro)).setMinimumHeight(( findViewById(R.id.LLlinha1).getHeight() ));
+
+        if (savedInstanceState != null)
+            reversi = (ReversicoXi) savedInstanceState.getSerializable("reversi");
+        else {
+            Intent received = getIntent();
+            String nivelAI = received.getStringExtra("NivelAI");
+            int playerN = received.getIntExtra("Player", 0); if(playerN == 0) throw new IndexOutOfBoundsException();
+
+            reversi = new ReversicoXi(playerN);
+        }
+
         actualizaVistaTabuleiro(reversi.getCampo());
+    }
 
-        findViewById(R.id.btnAtualTab).setOnClickListener(listener -> {
-            actualizaVistaTabuleiro(reversi.getCampo());
-        });
-
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("reversi", reversi);
     }
 
     public void onClickCampoJogo(View view) {
@@ -60,7 +72,7 @@ public class PvsAI_Activity extends AppCompatActivity {
 
                 @Override
                 public void onFinish() {
-                    reversi.jogadaAI();
+                    reversi.jogadaDumbAI();
                     actualizaVistaTabuleiro(reversi.getCampo());
                 }
             }.start();

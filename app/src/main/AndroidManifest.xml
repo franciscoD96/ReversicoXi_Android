@@ -18,7 +18,8 @@
         </activity>
         <activity android:name=".GameActivities.AIvsAI_Activity" />
         <activity android:name=".GameActivities.PvsAI_Activity" />
-        <activity android:name=".EscolheDificuldadeAIActivity" />
+        <activity android:name=".HistoricoJogo" />
+        <activity android:name=".GameActivities.PvsP_Activity"></activity>
     </application>
 
 </manifest>
