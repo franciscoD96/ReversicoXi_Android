@@ -283,16 +283,12 @@ public class ReversicoXi implements Serializable {
 
 
 
-
-    public int jogadaAIvsAI() {
-
-        marcaPosicoesLivres(jogadorAtual);
+     /*TODO:
 
         //guardar mapa p o historico
-        historicoJogo.add(campo); //                TODO
+        historicoJogo.add(campo);
 
 
-        /*TODO:
         // if posicoesLivres == 0
         //      testar se o inimigo pode jogar
         // else
@@ -301,47 +297,34 @@ public class ReversicoXi implements Serializable {
 
 
 
-        Collections.shuffle(posJogaveis);
-        Coord jogada = posJogaveis.get(0);
-        realizaJogada(jogadorAtual, jogada.getX(), jogada.getY());
-        limpaMarcadoresJogaveis();
 
-        if(jogadorAtual == 1) jogadorAtual = 2;
-        else jogadorAtual = 1;
 
+
+    public int jogadaSmartAI() {
+
+        // Inteligencia implementada: consistência nas jogadas, em que tende para jogar sempre para o lado inferior direito do mapa
+        //mas dá prioridade a uma jogada com maior número de pontos a ganhar.
+
+        marcaPosicoesLivres(jogadorAtual);
+
+        Coord aJogar = null;
+        int maiorNrdePontos = 0;
+        Map<Coord, Integer> nrPontosObtidosPorJogada = new HashMap<>(posJogaveis.size());
+
+        for (Coord c : posJogaveis) {
+            nrPontosObtidosPorJogada.put(c, calculaPontosAGanhar(jogadorAtual, c.getX(), c.getY()));
+            if (maiorNrdePontos < nrPontosObtidosPorJogada.get(c))
+                aJogar = c;
+        }
+
+        realizaJogada(jogadorAtual, aJogar.getX(), aJogar.getY());
+        passarTurno();
+
+        marcaPosicoesLivres(jogadorAtual);
         return jogadorAtual;
     }
 
-
-
-    public void jogadaSmartAI() {
-
-        marcaPosicoesLivres(jogadorAtual); // para obter as posições livres
-
-        if (posJogaveis.size() > 0) {
-            Coord aJogar = null;
-            int maiorNrdePontos = 0;
-            Map<Coord, Integer> nrPontosObtidosPorJogada;
-
-            nrPontosObtidosPorJogada = new HashMap<>(posJogaveis.size());
-            for (Coord c : posJogaveis) {
-                nrPontosObtidosPorJogada.put(c, calculaPontosAGanhar(jogadorAtual, c.getX(), c.getY()));
-                if (maiorNrdePontos < nrPontosObtidosPorJogada.get(c))
-                    aJogar = c; // guarda esta coordenada que tem um maior número de peças a comer
-            }
-
-
-            realizaJogada(jogadorAtual, aJogar.getX(), aJogar.getY());
-            passarTurno();
-        } else {
-
-        }
-
-        marcaPosicoesLivres(jogadorAtual);
-    }
-
-    // Activity PvsAI
-    public void jogadaDumbAI() {
+    public int jogadaDumbAI() {
         marcaPosicoesLivres(jogadorAtual); // para obter as posições livres
 
         Collections.shuffle(posJogaveis);
@@ -351,10 +334,11 @@ public class ReversicoXi implements Serializable {
         passarTurno();
 
         marcaPosicoesLivres(jogadorAtual);
+        return jogadorAtual;
     }
-    public void jogadaUser(Coord j) {
+    public int jogadaUser(Coord j) {
         realizaJogada(jogadorAtual, j.getX(), j.getY());
         passarTurno();
+        return jogadorAtual;
     }
-    // -- Activity PvsAI --
 }

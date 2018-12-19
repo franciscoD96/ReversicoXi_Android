@@ -9,22 +9,105 @@
     android:padding="4dp"
     android:orientation="vertical">
 
-    <Button
-        android:textAllCaps="false"
-        android:id="@+id/btnAIvsAI"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="AI vs AI"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/colorPrimary"
-        android:animateLayoutChanges="true"
-        >
+        android:animateLayoutChanges="true">
+        <Button
+            android:textAllCaps="false"
+            android:id="@+id/btnAIvsAI"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="AI vs AI"/>
+        <LinearLayout
+            android:visibility="gone"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/LL_AIvsAI"
+            android:orientation="vertical"
+            android:layout_marginBottom="10dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Nível da AI das Brancas:"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="4dp"
+                    />
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/RG_AIvsAI_AIl"
+                    android:orientation="horizontal">
+                    <android.support.v7.widget.AppCompatRadioButton
+                        android:id="@+id/RB_AIvsAI_AI1Dumb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dumb AI"
+                        android:checked="true"/>
+                    <android.support.v7.widget.AppCompatRadioButton
+                        android:id="@+id/RB_AIvsAI_AI1Smart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Smart AI"
+                        android:checked="false"/>
+                </RadioGroup>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Nível da AI das Pretas:"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="4dp"
+                    />
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/RG_AIvsAI_AI2"
+                    android:orientation="horizontal">
+                    <android.support.v7.widget.AppCompatRadioButton
+                        android:id="@+id/RB_AIvsAI_AI2Dumb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dumb AI"
+                        android:checked="true"/>
+                    <android.support.v7.widget.AppCompatRadioButton
+                        android:id="@+id/RB_AIvsAI_AI2Smart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Smart AI"
+                        android:checked="false"/>
+                </RadioGroup>
+            </LinearLayout>
+            <android.support.v7.widget.AppCompatButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginRight="10dp"
+                android:text="Start Game"
+                android:id="@+id/startAIvsAIgame"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:animateLayoutChanges="true">
         <Button
             android:id="@+id/btnJogarvsAI"
+            android:animateLayoutChanges="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Jogar contra AI"
@@ -112,11 +195,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/colorPrimaryDark"
         android:animateLayoutChanges="true"
         >
         <Button
             android:id="@+id/btnJogarvsAmigo"
+            android:animateLayoutChanges="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Jogar contra Amigo neste Dispositivo"
@@ -178,6 +261,7 @@
 
 
     <Button
+        android:animateLayoutChanges="true"
         android:textAllCaps="false"
         android:id="@+id/btnVerPerfil"
         android:layout_width="match_parent"

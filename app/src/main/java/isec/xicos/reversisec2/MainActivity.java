@@ -15,8 +15,7 @@ import isec.xicos.reversisec2.GameActivities.PvsP_Activity;
 
 public class MainActivity extends AppCompatActivity {
 
-    LinearLayout LLjogarvsAI;
-    LinearLayout LLjogarvsAmigo;
+    LinearLayout LL_AIvsAI, LLjogarvsAI, LLjogarvsAmigo;
 
 
     @Override
@@ -24,6 +23,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //  __ AI vs AI
+        LL_AIvsAI = findViewById(R.id.LL_AIvsAI);
+        findViewById(R.id.btnAIvsAI).setOnClickListener(listener -> {
+            if (LL_AIvsAI.getVisibility() == View.GONE)
+                findViewById(R.id.LL_AIvsAI).setVisibility(View.VISIBLE);
+            else
+                findViewById(R.id.LL_AIvsAI).setVisibility(View.GONE);
+        });
+        findViewById(R.id.startAIvsAIgame).setOnClickListener(listener -> {
+            Intent i = new Intent(this, AIvsAI_Activity.class).
+                    putExtra("AI1", ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.RG_AIvsAI_AIl)).getCheckedRadioButtonId())).getText()).
+                    putExtra("AI2", ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.RG_AIvsAI_AI2)).getCheckedRadioButtonId())).getText());
+            startActivity(i);
+        });
+
+        //  __ P vs AI
         LLjogarvsAI = findViewById(R.id.LLjogarvsAI);
         findViewById(R.id.btnJogarvsAI).setOnClickListener(listener -> {
             if (LLjogarvsAI.getVisibility() == View.GONE)
@@ -44,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
         });
 
+        //  __ P vs P
         LLjogarvsAmigo = findViewById(R.id.LLjogarvsAmigo);
         findViewById(R.id.btnJogarvsAmigo).setOnClickListener(listener -> {
             if (LLjogarvsAmigo.getVisibility() == View.GONE)
@@ -63,10 +79,5 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-/*        findViewById(R.id.btnJogarvsAI).setOnClickListener(listener -> {
-            Intent i = new Intent(this, EscolheDificuldadeAIActivity.class).
-                    putExtra("btnClicked", "PvsAI");
-            startActivity(i);
-        });*/
     }
 }

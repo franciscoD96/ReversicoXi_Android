@@ -24,7 +24,9 @@ import isec.xicos.reversisec2.Reversi.ReversicoXi;
 public class PvsAI_Activity extends AppCompatActivity {
 
     ReversicoXi reversi;
+    String nivelAI;
     int cntJogadasInvalidas = 0;
+    boolean lockAcesso = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +34,12 @@ public class PvsAI_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_p_vs_ai);
 
 
-        if (savedInstanceState != null)
+        if (savedInstanceState != null) {
             reversi = (ReversicoXi) savedInstanceState.getSerializable("reversi");
-        else {
+            nivelAI = savedInstanceState.getString("nivelAI");
+        } else {
             Intent received = getIntent();
-            String nivelAI = received.getStringExtra("NivelAI");
+            nivelAI = received.getStringExtra("NivelAI");
             int playerN = received.getIntExtra("Player", 0); if(playerN == 0) throw new IndexOutOfBoundsException();
 
             reversi = new ReversicoXi(playerN);
@@ -49,6 +52,7 @@ public class PvsAI_Activity extends AppCompatActivity {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putSerializable("reversi", reversi);
+        outState.putString("nivelAI", nivelAI);
     }
 
     public void onClickCampoJogo(View view) {
@@ -59,7 +63,9 @@ public class PvsAI_Activity extends AppCompatActivity {
         for (Coord co : reversi.getPosJogaveis())
             Log.d("tag", "posJogaveis:" + co.getX() + co.getY());
 
+        if(!lockAcesso)  // programação orientada a eventos, am I right ?
         if ( reversi.checkIsJogadaValida(c) ) {
+            lockAcesso = true;
             cntJogadasInvalidas = 0; // só para não aparecer o toast de todas as vezes que o user se engana
 
             reversi.jogadaUser(c);
@@ -71,8 +77,15 @@ public class PvsAI_Activity extends AppCompatActivity {
 
                 @Override
                 public void onFinish() {
-                    reversi.jogadaDumbAI();
+
+                    if (nivelAI.equals("Dumb AI")) {
+                        reversi.jogadaDumbAI();
+                    }
+                    else if (nivelAI.equals("Smart AI")) {
+                        reversi.jogadaSmartAI();
+                    }
                     actualizaVistaTabuleiro(reversi.getCampo());
+                    lockAcesso = false;
                 }
             }.start();
 
