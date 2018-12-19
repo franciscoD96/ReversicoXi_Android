@@ -254,16 +254,32 @@ public class ReversicoXi implements Serializable {
 
     public int testarFimDeJogada(int playingPlayer) {
 
-        //pode guardar aqui o tabuleiro actual para ver o
+        int jogPassado = playingPlayer;//guarda o jogador do inicio
+
+        marcaPosicoesLivres(jogadorAtual);
+        if (posJogaveis.size() == 0) {
+            playingPlayer = (playingPlayer == 1) ? 2 : 1;//se jogador ==1 ele retorna o jogador 2, senao retorna 1
+        }
+        else {
+            limpaMarcadoresJogaveis();
+        }
+
+
+
+        if(jogPassado != playingPlayer) {
+            marcaPosicoesLivres(jogadorAtual);
+            if (posJogaveis.size() == 0) {
+                limpaMarcadoresJogaveis();
+                playingPlayer = 0;
+            }
+        }
 
         /* retorna qual o próximo jogador a jogar.
         pode tanto ser o mesmo, caso não haja jogadas para o adversário
         ou pode ser ENDGAME, se o tabuleiro estiver cheio . */
 
-
         return playingPlayer;
     }
-
 
 
 
