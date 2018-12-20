@@ -295,11 +295,13 @@ public class ReversicoXi implements Serializable {
         //      end game*/
 
 
+    public void jogadaAIvsAI() {
 
 
+    }
 
 
-
+// __ P vs AI __
     public int jogadaSmartAI() {
 
         // Inteligencia implementada: consistência nas jogadas, em que tende para jogar sempre para o lado inferior direito do mapa

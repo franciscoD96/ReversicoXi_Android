@@ -33,7 +33,10 @@ public class PvsAI_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_p_vs_ai);
 
-
+        /* TODO. redimensionar o tabuleiro em portrait
+        LinearLayout.LayoutParams lp = ((LinearLayout.LayoutParams)((LinearLayout) findViewById(R.id.LLlinha1)).getLayoutParams());
+        lp.width = ((LinearLayout) findViewById(R.id.LLtabuleiro)).getHeight();
+*/
         if (savedInstanceState != null) {
             reversi = (ReversicoXi) savedInstanceState.getSerializable("reversi");
             nivelAI = savedInstanceState.getString("nivelAI");
