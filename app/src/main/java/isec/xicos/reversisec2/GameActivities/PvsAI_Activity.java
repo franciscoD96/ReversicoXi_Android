@@ -35,8 +35,8 @@ public class PvsAI_Activity extends AppCompatActivity {
 
         /* TODO. redimensionar o tabuleiro em portrait
         LinearLayout.LayoutParams lp = ((LinearLayout.LayoutParams)((LinearLayout) findViewById(R.id.LLlinha1)).getLayoutParams());
-        lp.width = ((LinearLayout) findViewById(R.id.LLtabuleiro)).getHeight();
-*/
+        lp.width = ((LinearLayout) findViewById(R.id.LLtabuleiro)).getHeight();*/
+
         if (savedInstanceState != null) {
             reversi = (ReversicoXi) savedInstanceState.getSerializable("reversi");
             nivelAI = savedInstanceState.getString("nivelAI");
@@ -80,11 +80,10 @@ public class PvsAI_Activity extends AppCompatActivity {
 
                 @Override
                 public void onFinish() {
-
-                    if (nivelAI.equals("Dumb AI")) {
+                    if (nivelAI.equals( getString(R.string.dumbAI) )) {
                         reversi.jogadaDumbAI();
                     }
-                    else if (nivelAI.equals("Smart AI")) {
+                    else if (nivelAI.equals( getString(R.string.smartAI) )) {
                         reversi.jogadaSmartAI();
                     }
                     actualizaVistaTabuleiro(reversi.getCampo());
