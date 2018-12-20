@@ -12,6 +12,7 @@ import android.widget.RadioGroup;
 import isec.xicos.reversisec2.GameActivities.AIvsAI_Activity;
 import isec.xicos.reversisec2.GameActivities.PvsAI_Activity;
 import isec.xicos.reversisec2.GameActivities.PvsP_Activity;
+import isec.xicos.reversisec2.UserProfile.UserProfileActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -78,6 +79,10 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
         });
 
-
+        //  __ Go to Perfil
+        findViewById(R.id.btnVerPerfil).setOnClickListener(listener -> {
+            Intent i = new Intent(this, UserProfileActivity.class);
+            startActivity(i);
+        });
     }
 }

@@ -19,7 +19,8 @@
         <activity android:name=".GameActivities.AIvsAI_Activity" />
         <activity android:name=".GameActivities.PvsAI_Activity" />
         <activity android:name=".HistoricoJogo" />
-        <activity android:name=".GameActivities.PvsP_Activity"></activity>
+        <activity android:name=".GameActivities.PvsP_Activity" />
+        <activity android:name=".UserProfile.UserProfileActivity"></activity>
     </application>
 
 </manifest>

@@ -14,6 +14,14 @@
     <string name="seeProfile">"See Profile"</string>
     <string name="AiWhites">"Level of White AI:"</string>
     <string name="AiBlacks">"Level of Black AI:"</string>
-
+    <string name="changeProfilePic">"Take new photo"</string>
+    <string name="viewPastGames">"View Past Games"</string>
+    <string name="username">"Username"</string>
+    <string name="changeUsername">"Change Username"</string>
+    <string name="deleteProfile">"Delete Profile"</string>
+    <string name="wonGames">"Games Won: "</string>
+    <string name="lostGames">"Games Lost: "</string>
+    <string name="newUsername">"New Username: "</string>
+    <string name="cancel">"Cancel"</string>
 
 </resources>

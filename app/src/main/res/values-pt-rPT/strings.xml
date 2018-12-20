@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">ReversISEC2</string>
     <string name="title_activity_pvs_ai_">PvsAI_Activity</string>
     <string name="JogarvsAI">"Jogar contra AI"</string>
@@ -16,5 +16,14 @@
     <string name="seeProfile">"Ver Perfil"</string>
     <string name="AiWhites">"Nível da AI das Brancas:"</string>
     <string name="AiBlacks">"Nível da AI das Pretas:"</string>
+    <string name="changeProfilePic">"Tirar nova foto"</string>
+    <string name="viewPastGames">"Ver Jogos Anteriores"</string>
+    <string name="username">"Nome do Jogador"</string>
+    <string name="changeUsername">"Mudar o nome"</string>
+    <string name="deleteProfile">"Eliminar perfil"</string>
+    <string name="wonGames">"Jogos Ganhos: "</string>
+    <string name="lostGames">"Jogos Perdidos: "</string>
+    <string name="newUsername">"Novo nome: "</string>
+    <string name="cancel">"Cancelar"</string>
 
 </resources>
