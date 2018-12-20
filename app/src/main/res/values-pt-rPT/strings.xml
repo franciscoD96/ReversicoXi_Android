@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="app_name">ReversISEC2</string>
+    <string name="title_activity_pvs_ai_">PvsAI_Activity</string>
+    <string name="JogarvsAI">"Jogar contra AI"</string>
+    <string name="aiLevel">"Nível da AI:"</string>
+    <string name="dumbAI">"AI Burro"</string>
+    <string name="smartAI">"AI Inteligente"</string>
+    <string name="playAs">"Jogar como:""</string>
+    <string name="whites">"Brancas"</string>
+    <string name="blacks">"Pretas"</string>
+    <string name="startGame">"Começar Jogo"</string>
+    <string name="JogarvsAmigoLocal">"Jogador contra Jogador Localmente"</string>
+    <string name="localPlayer">"Jogador 1:"</string>
+    <string name="seeProfile">"Ver Perfil"</string>
+    <string name="AiWhites">"Nível da AI das Brancas:"</string>
+    <string name="AiBlacks">"Nível da AI das Pretas:"</string>
+
+</resources>

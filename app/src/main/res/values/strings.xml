@@ -1,4 +1,19 @@
 <resources>
     <string name="app_name">ReversISEC2</string>
     <string name="title_activity_pvs_ai_">PvsAI_Activity</string>
+    <string name="JogarvsAI">"Play Against AI"</string>
+    <string name="aiLevel">"AI Level:"</string>
+    <string name="dumbAI">"Dumb AI"</string>
+    <string name="smartAI">"Smart AI"</string>
+    <string name="playAs">"Play with:"</string>
+    <string name="whites">"Whites"</string>
+    <string name="blacks">"Blacks"</string>
+    <string name="startGame">"Start Game"</string>
+    <string name="JogarvsAmigoLocal">"Player vs Player Locally"</string>
+    <string name="localPlayer">"Player 1:"</string>
+    <string name="seeProfile">"See Profile"</string>
+    <string name="AiWhites">"Level of White AI:"</string>
+    <string name="AiBlacks">"Level of Black AI:"</string>
+
+
 </resources>
