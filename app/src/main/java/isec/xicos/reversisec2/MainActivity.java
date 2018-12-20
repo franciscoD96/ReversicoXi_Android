@@ -49,9 +49,9 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.startPvsAIgame).setOnClickListener(listener -> {
             String jogarComo = (String)((RadioButton) findViewById(((RadioGroup) findViewById(R.id.RG_PvsAI_numPlayer)).getCheckedRadioButtonId())).getText();
 
-            int playerN = 0;
-            if(jogarComo.equals("Brancas")) playerN = 1;
-            else if (jogarComo.equals("Pretas")) playerN = 2;
+            int playerN = 0;//TODO se acrescentar mos mais uma lingua nao funciona.. arranjar outra maneira
+            if(jogarComo.equals("Brancas") || jogarComo.equals("Whites")) playerN = 1;
+            else if (jogarComo.equals("Pretas") || jogarComo.equals("Blacks")) playerN = 2;
 
             Intent i = new Intent(this, PvsAI_Activity.class).
                     putExtra("NivelAI", ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.RG_PvsAI_AIlvl)).getCheckedRadioButtonId())).getText()).
@@ -69,9 +69,9 @@ public class MainActivity extends AppCompatActivity {
         });
         findViewById(R.id.startPvsPamigo).setOnClickListener(listener -> {
             String jogarComo = (String)((RadioButton) findViewById(((RadioGroup) findViewById(R.id.RG_PvsAI_numPlayer)).getCheckedRadioButtonId())).getText();
-            int playerN = 0;
-            if(jogarComo == "Brancas") playerN = 1;
-            else if (jogarComo == "Pretas") playerN = 2;
+            int playerN = 0;//TODO se acrescentar mos mais uma lingua nao funciona.. arranjar outra maneira
+            if(jogarComo == "Brancas" || jogarComo.equals("Whites")) playerN = 1;
+            else if (jogarComo == "Pretas" || jogarComo.equals("Blacks")) playerN = 2;
 
             Intent i = new Intent(this, PvsP_Activity.class).
                     putExtra("JogadorResidente", playerN);

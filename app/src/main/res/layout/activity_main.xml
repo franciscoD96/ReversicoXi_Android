@@ -36,7 +36,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Nível da AI das Brancas:"
+                    android:text="@string/AiWhites"
                     android:layout_gravity="center"
                     android:layout_marginRight="4dp"
                     />
@@ -49,13 +49,13 @@
                         android:id="@+id/RB_AIvsAI_AI1Dumb"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Dumb AI"
+                        android:text="@string/dumbAI"
                         android:checked="true"/>
                     <android.support.v7.widget.AppCompatRadioButton
                         android:id="@+id/RB_AIvsAI_AI1Smart"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Smart AI"
+                        android:text="@string/smartAI"
                         android:checked="false"/>
                 </RadioGroup>
             </LinearLayout>
@@ -67,7 +67,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Nível da AI das Pretas:"
+                    android:text="@string/AiBlacks"
                     android:layout_gravity="center"
                     android:layout_marginRight="4dp"
                     />
@@ -80,13 +80,13 @@
                         android:id="@+id/RB_AIvsAI_AI2Dumb"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Dumb AI"
+                        android:text="@string/dumbAI"
                         android:checked="true"/>
                     <android.support.v7.widget.AppCompatRadioButton
                         android:id="@+id/RB_AIvsAI_AI2Smart"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Smart AI"
+                        android:text="@string/smartAI"
                         android:checked="false"/>
                 </RadioGroup>
             </LinearLayout>
@@ -95,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:layout_marginRight="10dp"
-                android:text="Start Game"
+                android:text="@string/startGame"
                 android:id="@+id/startAIvsAIgame"/>
         </LinearLayout>
     </LinearLayout>
@@ -110,7 +110,7 @@
             android:animateLayoutChanges="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Jogar contra AI"
+            android:text="@string/JogarvsAI"
             android:textAllCaps="false"/>
         <LinearLayout
             android:visibility="gone"
@@ -127,7 +127,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Nível da AI:"
+                    android:text="@string/aiLevel"
                     android:layout_gravity="center"
                     android:layout_marginRight="4dp"
                     />
@@ -140,13 +140,13 @@
                         android:id="@+id/RB_PvsAI_DumbAI1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Dumb AI"
+                        android:text="@string/dumbAI"
                         android:checked="true"/>
                     <android.support.v7.widget.AppCompatRadioButton
                         android:id="@+id/RB_PvsAI_SmartAI1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Smart AI"
+                        android:text="@string/smartAI"
                         android:checked="false"/>
                 </RadioGroup>
             </LinearLayout>
@@ -158,7 +158,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Jogar como:"
+                    android:text="@string/playAs"
                     android:layout_gravity="center"
                     android:layout_marginRight="4dp"
                     />
@@ -171,13 +171,13 @@
                         android:id="@+id/RB_PvsAI_player1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Brancas"
+                        android:text="@string/whites"
                         android:checked="true"/>
                     <android.support.v7.widget.AppCompatRadioButton
                         android:id="@+id/RB_PvsAI_player2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Pretas"
+                        android:text="@string/blacks"
                         android:checked="false"/>
                 </RadioGroup>
             </LinearLayout>
@@ -186,7 +186,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:layout_marginRight="10dp"
-                android:text="Start Game"
+                android:text="@string/startGame"
                 android:id="@+id/startPvsAIgame"/>
         </LinearLayout>
     </LinearLayout>
@@ -202,7 +202,7 @@
             android:animateLayoutChanges="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Jogar contra Amigo neste Dispositivo"
+            android:text="@string/JogarvsAmigoLocal"
             android:textAllCaps="false"/>
         <LinearLayout
             android:visibility="gone"
@@ -219,7 +219,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Jogador Residente:"
+                    android:text="@string/localPlayer"
                     android:layout_gravity="center"
                     android:layout_marginRight="4dp"
                     />
@@ -232,13 +232,13 @@
                         android:id="@+id/RB_PvsP_reP"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Brancas"
+                        android:text="@string/whites"
                         android:checked="true"/>
                     <android.support.v7.widget.AppCompatRadioButton
                         android:id="@+id/RB_PvsP_reB"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Pretas"
+                        android:text="@string/blacks"
                         android:checked="false"/>
                 </RadioGroup>
             </LinearLayout>
@@ -254,7 +254,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:layout_marginRight="10dp"
-                android:text="Start Game"
+                android:text="@string/startGame"
                 android:id="@+id/startPvsPamigo"/>
         </LinearLayout>
     </LinearLayout>
@@ -266,6 +266,6 @@
         android:id="@+id/btnVerPerfil"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ver Perfil"/>
+        android:text="@string/seeProfile"/>
 
 </LinearLayout>
