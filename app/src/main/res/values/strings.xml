@@ -23,5 +23,6 @@
     <string name="lostGames">"Games Lost: "</string>
     <string name="newUsername">"New Username: "</string>
     <string name="cancel">"Cancel"</string>
+    <string name="user">"User"</string>
 
 </resources>

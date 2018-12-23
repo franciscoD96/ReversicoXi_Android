@@ -11,7 +11,7 @@
     <string name="whites">"Brancas"</string>
     <string name="blacks">"Pretas"</string>
     <string name="startGame">"Começar Jogo"</string>
-    <string name="JogarvsAmigoLocal">"Jogador contra Jogador Localmente"</string>
+    <string name="JogarvsAmigoLocal">"Jogar contra Amigo Localmente"</string>
     <string name="localPlayer">"Jogador 1:"</string>
     <string name="seeProfile">"Ver Perfil"</string>
     <string name="AiWhites">"Nível da AI das Brancas:"</string>
@@ -25,5 +25,5 @@
     <string name="lostGames">"Jogos Perdidos: "</string>
     <string name="newUsername">"Novo nome: "</string>
     <string name="cancel">"Cancelar"</string>
-
+    <string name="user">"Você"</string>
 </resources>

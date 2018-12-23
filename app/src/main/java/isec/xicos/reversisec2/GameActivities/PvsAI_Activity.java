@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import isec.xicos.reversisec2.R;
@@ -27,6 +28,8 @@ public class PvsAI_Activity extends AppCompatActivity {
     String nivelAI;
     int cntJogadasInvalidas = 0;
     boolean lockAcesso = false;
+    List<Integer> pontos;
+    String tv1 = "", tv2 = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,20 +37,37 @@ public class PvsAI_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_p_vs_ai);
 
         /* TODO. redimensionar o tabuleiro em portrait
+            TODO. incluir temporizador
         LinearLayout.LayoutParams lp = ((LinearLayout.LayoutParams)((LinearLayout) findViewById(R.id.LLlinha1)).getLayoutParams());
-        lp.width = ((LinearLayout) findViewById(R.id.LLtabuleiro)).getHeight();*/
+        lp.width = ((LinearLayout) findViewById(R.id.LLtabuleiro)).getHeight();
+
+        LinearLayout llTabuleiro = findViewById(R.id.LLtabuleiro);
+        llTabuleiro.setLayoutParams(new LinearLayout.LayoutParams(llTabuleiro.getMeasuredHeight(), llTabuleiro.getMeasuredHeight()));*/
 
         if (savedInstanceState != null) {
             reversi = (ReversicoXi) savedInstanceState.getSerializable("reversi");
             nivelAI = savedInstanceState.getString("nivelAI");
+            tv1 = savedInstanceState.getString("tv1");
+            pontos = savedInstanceState.getIntegerArrayList("pontos");
         } else {
             Intent received = getIntent();
             nivelAI = received.getStringExtra("NivelAI");
             int playerN = received.getIntExtra("Player", 0); if(playerN == 0) throw new IndexOutOfBoundsException();
+            if (playerN == 1)
+                tv1 = "(" + getText(R.string.user) + ") " + getText(R.string.whites) + ": \n"
+                        + "(" + nivelAI + ") " + getText(R.string.blacks) + ": ";
+            else
+                tv1 = "(" + nivelAI + ") " + getText(R.string.whites) + ": \n"
+                        + "(" + getText(R.string.user) + ") " + getText(R.string.blacks) + ": ";
 
-            reversi = new ReversicoXi(playerN);
+            reversi = new ReversicoXi(playerN, getString(R.string.dumbAI), getString(R.string.smartAI));
+            pontos = new ArrayList<Integer>() {{ add(2); add(2); }};
         }
 
+        tv2 = "" + pontos.get(0) + " pontos\n" + pontos.get(1) + " pontos";
+
+        ((TextView) findViewById(R.id.tv_PvsAI1)).setText(tv1);
+        ((TextView) findViewById(R.id.tv_PvsAI2)).setText(tv2);
         actualizaVistaTabuleiro(reversi.getCampo());
     }
 
@@ -56,46 +76,52 @@ public class PvsAI_Activity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         outState.putSerializable("reversi", reversi);
         outState.putString("nivelAI", nivelAI);
+        outState.putString("tv1", tv1);
+        outState.putIntegerArrayList("pontos", (ArrayList<Integer>)pontos);
     }
 
     public void onClickCampoJogo(View view) {
 
         Coord c = getCoordEscolhidas(view);
 
-        Log.d("tag", "jogadaUser " + c.getX() + c.getY());
-        for (Coord co : reversi.getPosJogaveis())
-            Log.d("tag", "posJogaveis:" + co.getX() + co.getY());
+        if(!lockAcesso)
+            if ( reversi.checkIsJogadaValida(c) ) {
+                lockAcesso = true;
+                cntJogadasInvalidas = 0; // só para não aparecer o toast de todas as vezes que o user se engana
 
-        if(!lockAcesso)  // programação orientada a eventos, am I right ?
-        if ( reversi.checkIsJogadaValida(c) ) {
-            lockAcesso = true;
-            cntJogadasInvalidas = 0; // só para não aparecer o toast de todas as vezes que o user se engana
+                pontos = reversi.jogadaPvsAI(c);
 
-            reversi.jogadaUser(c);
-            actualizaVistaTabuleiro(reversi.getCampo());
 
-            new CountDownTimer(Math.round(500 + (Math.random() * 1000)), 1000) {
-                @Override
-                public void onTick(long millisUntilFinished) {}
-
-                @Override
-                public void onFinish() {
-                    if (nivelAI.equals( getString(R.string.dumbAI) )) {
-                        reversi.jogadaDumbAI();
+                new CountDownTimer( (Math.round(1000 + (Math.random() * 1000))) , 300) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                        ((TextView) findViewById(R.id.tv_PvsAI2)).setText("" + pontos.get(0) + " pontos\n" + pontos.get(1) + " pontos");
+                        actualizaVistaTabuleiro(reversi.getCampo());
                     }
-                    else if (nivelAI.equals( getString(R.string.smartAI) )) {
-                        reversi.jogadaSmartAI();
-                    }
-                    actualizaVistaTabuleiro(reversi.getCampo());
-                    lockAcesso = false;
-                }
-            }.start();
 
-        } else {
-            cntJogadasInvalidas++;
-            if (cntJogadasInvalidas > 2)
-                Toast.makeText(this, "Jogada Inválida!", Toast.LENGTH_SHORT).show();
-        }
+                    @Override
+                    public void onFinish() {
+                        pontos = (ArrayList)reversi.jogadaAIvsP(nivelAI);
+                        if (pontos.size() == 2) {
+                            ((TextView) findViewById(R.id.tv_PvsAI2)).setText("" + pontos.get(0) + " pontos\n" + pontos.get(1) + " pontos");
+                            actualizaVistaTabuleiro(reversi.getCampo());
+                            lockAcesso = false;
+                        }else{
+                            //end game
+                            /*
+                            no need to unlock tabuleiro
+
+                             */
+                        }
+                    }
+
+                }.start();
+
+            } else {
+                cntJogadasInvalidas++;
+                if (cntJogadasInvalidas > 2)
+                    Toast.makeText(this, "Jogada Inválida!", Toast.LENGTH_SHORT).show();
+            }
 
     }
 

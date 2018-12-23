@@ -1,5 +1,9 @@
 package isec.xicos.reversisec2.Reversi;
 
+import android.content.Context;
+import android.content.res.Resources;
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import isec.xicos.reversisec2.R;
 import isec.xicos.reversisec2.UserProfile.UserProfileActivity;
 
 import static java.lang.Math.abs;
@@ -206,7 +211,7 @@ public class ReversicoXi implements Serializable {
             }
 
     }
-    private Integer calculaPontosAGanhar(int paraPlayer, int x, int y) {
+    private int calculaPontosAGanhar(int paraPlayer, int x, int y) {
         String player = (paraPlayer == 1) ? "Branco" : "Preto";
         String enemy = (paraPlayer == 1) ? "Preto" : "Branco";
 
@@ -219,17 +224,24 @@ public class ReversicoXi implements Serializable {
 
         return contador;
     }
-    private void passarTurno() {
-        limpaMarcadoresJogaveis();
-        if(jogadorAtual == 1) jogadorAtual = 2;
-        else jogadorAtual = 1;
+
+    private int calculaPontosAtuais(int paraPlayer) {
+        int ret=0;
+        String p = (paraPlayer == 1) ? "Branco" : "Preto";
+        for (List<Celula> l : campo)
+            for (Celula c : l)
+                if (c.getCelula().equals(p))
+                    ret++;
+        return ret;
     }
+
 
     private List<List<Celula>> campo;       public List<List<Celula>> getCampo() { return campo; }
     private List<Coord> posJogaveis;        public List<Coord> getPosJogaveis() { return posJogaveis; }
     private List<List<Coord>> posAComer;
     private List<List<List<Celula>>> historicoJogo = new ArrayList<>();
     private int jogadorAtual = 1;           public int getJogadorAtual() { return jogadorAtual; }
+    String R_dumbAI, R_smartAI;
 
 
     private boolean writeFinishedGameToUserFile() { // chamar no fim de jogo terminado dentro desta classe
@@ -276,106 +288,136 @@ public class ReversicoXi implements Serializable {
         campo.get(3).get(4).setPreto();
         campo.get(4).get(3).setPreto();
     }
-    public ReversicoXi() {
-        inicializaCampo();
-    }
 
-    public ReversicoXi(int player) {
+    public ReversicoXi(int player, String R_dumbAI, String R_smartAI) {
         inicializaCampo();
         jogadorAtual = player;
         marcaPosicoesLivres(jogadorAtual);
+        this.R_dumbAI = R_dumbAI;
+        this.R_smartAI = R_smartAI;
     }
 
 
-    public int testarFimDeJogada(int playingPlayer) {
+    public void testarFimDeJogo() {
 
-        int jogPassado = playingPlayer;//guarda o jogador do inicio
+        int oQueJogou = jogadorAtual;
+        int oQueVaiJogar = (jogadorAtual == 1) ? 2 : 1;
 
-        marcaPosicoesLivres(jogadorAtual);
+        marcaPosicoesLivres(oQueVaiJogar); limpaMarcadoresJogaveis();
         if (posJogaveis.size() == 0) {
-            playingPlayer = (playingPlayer == 1) ? 2 : 1;//se jogador ==1 ele retorna o jogador 2, senao retorna 1
-        }
-        else {
-            limpaMarcadoresJogaveis();
-        }
-
-
-
-        if(jogPassado != playingPlayer) {
-            marcaPosicoesLivres(jogadorAtual);
-            if (posJogaveis.size() == 0) {
-                limpaMarcadoresJogaveis();
-                playingPlayer = 0;
-            }
-        }
-
-        /* retorna qual o próximo jogador a jogar.
-        pode tanto ser o mesmo, caso não haja jogadas para o adversário
-        ou pode ser ENDGAME, se o tabuleiro estiver cheio . */
-
-        return playingPlayer;
+            marcaPosicoesLivres(oQueJogou); limpaMarcadoresJogaveis();
+            if (posJogaveis.size() == 0)
+                jogadorAtual = 0;
+            else
+                jogadorAtual = oQueJogou;
+        } else
+            jogadorAtual = oQueVaiJogar;
     }
 
 
 
      /*TODO:
-
         //guardar mapa p o historico
         historicoJogo.add(campo);
+*/
+
+    // __ P vs P __
+    public int jogadaPvsP() {
+
+        testarFimDeJogo();
+        return jogadorAtual;
+    }
 
 
-        // if posicoesLivres == 0
-        //      testar se o inimigo pode jogar
-        // else
-        //      end game*/
+
+    // __ AI vs AI __
+    public int jogadaAIvsAI(String inteligenciaAI) {
+
+        Coord aJogar = null;
+
+        if (inteligenciaAI.equals( R_smartAI )) {
+            int maiorNrdePontos = 0;
+            Map<Coord, Integer> nrPontosObtidosPorJogada = new HashMap<>(posJogaveis.size());
+            for (Coord c : posJogaveis) {
+                int pontosNestaJogada = calculaPontosAGanhar(jogadorAtual, c.getX(), c.getY());
+                nrPontosObtidosPorJogada.put(c, pontosNestaJogada);
+                if (maiorNrdePontos < pontosNestaJogada) {
+                    aJogar = c;
+                    maiorNrdePontos = pontosNestaJogada;
+                }
+            }
+        } else if (inteligenciaAI.equals(R_dumbAI)) {
+            Collections.shuffle(posJogaveis);
+            aJogar = posJogaveis.get(0);
+        }
+
+        realizaJogada(jogadorAtual, aJogar.getX(), aJogar.getY());
 
 
-    public void jogadaAIvsAI() {
+        testarFimDeJogo();
 
+        limpaMarcadoresJogaveis();
+        marcaPosicoesLivres(jogadorAtual);
 
+        return jogadorAtual;
     }
 
 
 // __ P vs AI __
-    public int jogadaSmartAI() {
-
+    public List<Integer> jogadaAIvsP(String inteligenciaAI) {
         // Inteligencia implementada: consistência nas jogadas, em que tende para jogar sempre para o lado inferior direito do mapa
         //mas dá prioridade a uma jogada com maior número de pontos a ganhar.
 
-        marcaPosicoesLivres(jogadorAtual);
+
+        limpaMarcadoresJogaveis();
+        marcaPosicoesLivres(jogadorAtual); // para a AI
 
         Coord aJogar = null;
-        int maiorNrdePontos = 0;
-        Map<Coord, Integer> nrPontosObtidosPorJogada = new HashMap<>(posJogaveis.size());
 
-        for (Coord c : posJogaveis) {
-            nrPontosObtidosPorJogada.put(c, calculaPontosAGanhar(jogadorAtual, c.getX(), c.getY()));
-            if (maiorNrdePontos < nrPontosObtidosPorJogada.get(c))
-                aJogar = c;
+        if (inteligenciaAI.equals( R_smartAI )) {
+
+            int maiorNrdePontos = 0;
+            Map<Coord, Integer> nrPontosObtidosPorJogada = new HashMap<>(posJogaveis.size());
+            for (Coord c : posJogaveis) {
+                int pontosNestaJogada = calculaPontosAGanhar(jogadorAtual, c.getX(), c.getY());
+                nrPontosObtidosPorJogada.put(c, pontosNestaJogada);
+                if (maiorNrdePontos < pontosNestaJogada) {
+                    aJogar = c;
+                    maiorNrdePontos = pontosNestaJogada;
+                }
+            }
+        } else if (inteligenciaAI.equals( R_dumbAI )) {
+            Collections.shuffle(posJogaveis);
+            aJogar = posJogaveis.get(0);
         }
 
+
         realizaJogada(jogadorAtual, aJogar.getX(), aJogar.getY());
-        passarTurno();
 
-        marcaPosicoesLivres(jogadorAtual);
-        return jogadorAtual;
+        limpaMarcadoresJogaveis();
+
+        testarFimDeJogo();
+
+        if (jogadorAtual > 0) {
+            marcaPosicoesLivres(jogadorAtual); // para o user
+            return new ArrayList<Integer>() { // retorna os pontos de cada jogador
+                { add(calculaPontosAtuais(1)); add(calculaPontosAtuais(2)); }};
+        } else
+            return new ArrayList<Integer>();
     }
-
-    public int jogadaDumbAI() {
-        marcaPosicoesLivres(jogadorAtual); // para obter as posições livres
-
-        Collections.shuffle(posJogaveis);
-        Coord jogada = posJogaveis.get(0);
-
-        realizaJogada(jogadorAtual, jogada.getX(), jogada.getY());
-        passarTurno();
-
-        marcaPosicoesLivres(jogadorAtual);
-        return jogadorAtual;
-    }
-    public int jogadaUser(Coord j) {
+    public List<Integer> jogadaPvsAI(Coord j) {
         realizaJogada(jogadorAtual, j.getX(), j.getY());
-        passarTurno();
-        return jogadorAtual;
+
+        limpaMarcadoresJogaveis();
+
+        testarFimDeJogo();
+
+        List<Integer> ret = new ArrayList<Integer>() { // retorna os pontos de cada jogador
+            { add(calculaPontosAtuais(1)); add(calculaPontosAtuais(2)); }};
+        if (jogadorAtual == 0)
+            ret.add(123);
+
+        return ret;
+
     }
 }

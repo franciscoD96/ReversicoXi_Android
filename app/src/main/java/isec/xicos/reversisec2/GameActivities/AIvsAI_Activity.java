@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,36 +40,35 @@ public class AIvsAI_Activity extends AppCompatActivity {
             Intent i = getIntent();
             AI1 = i.getStringExtra("AI1");
             AI2 = i.getStringExtra("AI2");
-            reversi = new ReversicoXi();
-            jogadorAtual = 1;
+
+            jogadorAtual = (Math.random() > 0.5) ? 1 : 2;
+            reversi = new ReversicoXi(jogadorAtual, getString(R.string.dumbAI), getString(R.string.smartAI));
+            actualizaTabuleiro( reversi.getCampo() );
         }
 
-        tv = findViewById(R.id.tv1); tv.setText("Brancas = " + AI1 + "\nPretas = " + AI2 + "\n jog: " + jogadorAtual);
+        tv = findViewById(R.id.tv1); tv.setText("Brancas = " + AI1 + "\nPretas = " + AI2);
         findViewById(R.id.btnNovoJogo).setOnClickListener(listener -> {
-            reversi = new ReversicoXi();
-            jogadorAtual = 1;
 
+            jogadorAtual = (Math.random() > 0.5) ? 1 : 2;
+            reversi = new ReversicoXi(jogadorAtual, getString(R.string.dumbAI), getString(R.string.smartAI));
             actualizaTabuleiro( reversi.getCampo() );
         });
         findViewById(R.id.btnJogada).setOnClickListener(listener -> {
-            if (jogadorAtual == 1)
-                if (AI1.equals("Smart AI"))
-                    jogadorAtual = reversi.jogadaSmartAI();
-                else if (AI1.equals("Dumb AI"))
-                    jogadorAtual = reversi.jogadaDumbAI();
-                else Toast.makeText(this, "Erro, AI1 = " + AI1 , Toast.LENGTH_SHORT).show();
-            else
-            if (jogadorAtual == 2)
-                if (AI2.equals("Smart AI"))
-                    jogadorAtual = reversi.jogadaSmartAI();
-                else if (AI2.equals("Dumb AI"))
-                    jogadorAtual = reversi.jogadaDumbAI();
-                else Toast.makeText(this, "Erro, AI2 = " + AI2 , Toast.LENGTH_SHORT).show();
-            else if(jogadorAtual == 0)
-                reversi = new ReversicoXi();
+
+            jogadorAtual = (jogadorAtual == 1) ? reversi.jogadaAIvsAI(AI1) : reversi.jogadaAIvsAI(AI2);
 
             actualizaTabuleiro(reversi.getCampo());
         });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("reversi", reversi);
+        outState.putString("AI1", AI1);
+        outState.putString("AI2", AI2);
+        outState.putInt("jogadorAtual", jogadorAtual);
+
     }
 
     public void actualizaTabuleiro(List<List<Celula>> c) {
@@ -92,15 +92,5 @@ public class AIvsAI_Activity extends AppCompatActivity {
 
     public void onClickCampoJogo(View view) {
         Toast.makeText(this, "Para jogar escolha outro modo de jogo", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putSerializable("reversi", reversi);
-        outState.putString("AI1", AI1);
-        outState.putString("AI2", AI2);
-        outState.putInt("jogadorAtual", jogadorAtual);
-
     }
 }

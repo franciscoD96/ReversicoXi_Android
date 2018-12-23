@@ -10,6 +10,15 @@
     android:orientation="vertical">
 
 
+
+    <Button
+        android:animateLayoutChanges="true"
+        android:textAllCaps="false"
+        android:id="@+id/btnVerPerfil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/seeProfile"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -260,12 +269,6 @@
     </LinearLayout>
 
 
-    <Button
-        android:animateLayoutChanges="true"
-        android:textAllCaps="false"
-        android:id="@+id/btnVerPerfil"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/seeProfile"/>
+
 
 </LinearLayout>
