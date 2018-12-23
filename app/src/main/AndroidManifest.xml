@@ -22,7 +22,6 @@
         <activity android:name=".GameActivities.PvsP_Activity" />
         <activity android:name=".UserProfile.UserProfileActivity" />
         <activity android:name=".NetworkGame.PairPlayer" />
-        <activity android:name=".GameActivities.Connect_To_Other_Activity"></activity>
     </application>
 
 </manifest>
