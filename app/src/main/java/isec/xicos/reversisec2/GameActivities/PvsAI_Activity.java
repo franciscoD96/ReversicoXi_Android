@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.PersistableBundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -53,8 +54,8 @@ public class PvsAI_Activity extends AppCompatActivity {
             pontos = savedInstanceState.getIntegerArrayList("pontos");
         } else {
             Intent received = getIntent();
-            nivelAI = received.getStringExtra("NivelAI");
             int playerN = received.getIntExtra("Player", 0); if(playerN == 0) throw new IndexOutOfBoundsException();
+            nivelAI = received.getStringExtra("NivelAI");
             if (playerN == 1)
                 tv1 = "(" + getText(R.string.user) + ") " + getText(R.string.whites) + ": \n"
                         + "(" + nivelAI + ") " + getText(R.string.blacks) + ": ";
@@ -109,11 +110,11 @@ public class PvsAI_Activity extends AppCompatActivity {
                             actualizaVistaTabuleiro(reversi.getCampo());
                             lockAcesso = false;
                         }else{
-                            //end game
-                            /*
-                            no need to unlock tabuleiro
-
-                             */
+                            actualizaVistaTabuleiro(reversi.getCampo());
+                            if(pontos.size() == 0) {
+                                endGame();
+                            } else
+                                lockAcesso = false;
                         }
                     }
 
@@ -125,6 +126,25 @@ public class PvsAI_Activity extends AppCompatActivity {
                     Toast.makeText(this, "Jogada Inválida!", Toast.LENGTH_SHORT).show();
             }
 
+    }
+
+    private void endGame() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        if (pontos.get(0) != pontos.get(1))
+            if (pontos.get(0) > pontos.get(1))
+                builder.setTitle("" + getString(R.string.gameEnded) + "\n" + getString(R.string.whites) + " " + getString(R.string.won) );
+            else
+                builder.setTitle("" + getString(R.string.gameEnded) + "\n" + getString(R.string.blacks) + " " + getString(R.string.won) );
+        else
+            builder.setTitle("" + getString(R.string.gameEnded) + "\n" + getString(R.string.itsADraw) );
+
+        builder.setPositiveButton("OK", (dialog, which) -> {
+
+        });
+        builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.cancel());
+        builder.show();
     }
 
     // Modelo

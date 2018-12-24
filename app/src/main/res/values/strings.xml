@@ -10,7 +10,8 @@
     <string name="blacks">"Blacks"</string>
     <string name="startGame">"Start Game"</string>
     <string name="JogarvsAmigoLocal">"Player vs Player Locally"</string>
-    <string name="localPlayer">"Player 1:"</string>
+    <string name="localPlayer">"Home Player"</string>
+    <string name="GuestPlayer">"Guest Player"</string>
     <string name="seeProfile">"See Profile"</string>
     <string name="AiWhites">"Level of White AI:"</string>
     <string name="AiBlacks">"Level of Black AI:"</string>
@@ -24,6 +25,12 @@
     <string name="newUsername">"New Username: "</string>
     <string name="cancel">"Cancel"</string>
     <string name="user">"User"</string>
-    <string name="nrOfGamesDone">"Number of games done: "</string>
-
+    <string name="connect">"Connect"</string>
+    <string name="server">"Be a server"</string>
+    <string name="hintIP">"Specifiy the IP..."</string>
+    <string name="yourIP">"Your IP is:</string>
+    <string name="networkPlayBtn">Play vs Friend in Network</string>
+    <string name="gameEnded">Game Finished!</string>
+    <string name="won">won!</string>
+    <string name="itsADraw">It\'s a draw!</string>
 </resources>

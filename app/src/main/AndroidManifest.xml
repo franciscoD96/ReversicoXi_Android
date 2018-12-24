@@ -21,7 +21,7 @@
         <activity android:name=".HistoricoJogo" />
         <activity android:name=".GameActivities.PvsP_Activity" />
         <activity android:name=".UserProfile.UserProfileActivity" />
-        <activity android:name=".NetworkGame.PairPlayer" />
+        <activity android:name=".GameActivities.RemoteGame_Activity"></activity>
     </application>
 
 </manifest>

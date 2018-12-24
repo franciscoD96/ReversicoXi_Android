@@ -1,28 +1,16 @@
 package isec.xicos.reversisec2.Reversi;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.util.Log;
+import android.os.AsyncTask;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
-
-import isec.xicos.reversisec2.R;
-import isec.xicos.reversisec2.UserProfile.UserProfileActivity;
 
 import static java.lang.Math.abs;
+import static java.lang.Thread.sleep;
 
 public class ReversicoXi implements Serializable {
 
@@ -276,7 +264,7 @@ return false;    }
     }
 
 
-    public void testarFimDeJogo() {
+    private void testarFimDeJogo() {
 
         int oQueJogou = jogadorAtual;
         int oQueVaiJogar = (jogadorAtual == 1) ? 2 : 1;
@@ -299,11 +287,35 @@ return false;    }
         historicoJogo.add(campo);
 */
 
+
+
     // __ P vs P __
-    public int jogadaPvsP() {
+    public List<Integer> jogadaPvsP(Coord j) {
+
+        realizaJogada(jogadorAtual, j.getX(), j.getY());
+
+        limpaMarcadoresJogaveis();
 
         testarFimDeJogo();
-        return jogadorAtual;
+
+        Object lock = new Object();
+        Runnable makeUserWet = () -> {
+            try {
+                sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                marcaPosicoesLivres(jogadorAtual); // para o proximo
+            }
+        };
+        new Thread(makeUserWet).start();
+
+        if (jogadorAtual > 0) {
+
+            return new ArrayList<Integer>() { // retorna os pontos de cada jogador
+                { add(calculaPontosAtuais(1)); add(calculaPontosAtuais(2)); }};
+        } else
+            return new ArrayList<Integer>();
     }
 
 
