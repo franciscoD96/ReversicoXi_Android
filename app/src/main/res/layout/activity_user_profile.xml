@@ -72,11 +72,12 @@ android:id="@+id/debugTV"
             android:orientation="horizontal">
             <TextView
                 android:layout_weight="1"
+                android:gravity="right"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/wonGames"/>
             <TextView
-                android:id="@+id/tv_numJogosGanhos"
+                android:id="@+id/tv_jogosGanhos"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -86,11 +87,12 @@ android:id="@+id/debugTV"
             android:orientation="horizontal">
             <TextView
                 android:layout_weight="1"
+                android:gravity="right"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/lostGames"/>
             <TextView
-                android:id="@+id/tv_numJogosPerdidos"
+                android:id="@+id/tv_jogosPerdidos"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

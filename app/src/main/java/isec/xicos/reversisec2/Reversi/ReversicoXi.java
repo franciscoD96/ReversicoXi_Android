@@ -245,30 +245,8 @@ public class ReversicoXi implements Serializable {
 
 
     private boolean writeFinishedGameToUserFile() { // chamar no fim de jogo terminado dentro desta classe
-        try {
-            int nrJogo =0; //TODO: ler do ficheiro de user quantos jogos já houve
 
-            JSONArray estadosJogo = new JSONArray();
-
-            for(List<List<Celula>> c : historicoJogo) {
-                estadosJogo.put(c);
-            }
-
-            JSONObject outObj = new JSONObject();
-
-            outObj.put("jogo nr " + nrJogo, estadosJogo);
-
-            FileWriter fw = new FileWriter(UserProfileActivity.userData);
-            /*
-            public FileWriter(String fileName,
-                boolean append) throws IOException
-             */
-
-            return true;
-        } catch (JSONException e) { e.printStackTrace(); return false;}
-          catch (FileNotFoundException e) { e.printStackTrace(); return false;}
-          catch (IOException e) { e.printStackTrace(); return false;}
-    }
+return false;    }
 
     public boolean checkIsJogadaValida(Coord c) {
         for (Coord co : posJogaveis)

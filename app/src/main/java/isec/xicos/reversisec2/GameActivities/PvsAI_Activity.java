@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import isec.xicos.reversisec2.R;
 import isec.xicos.reversisec2.Reversi.Celula;
 import isec.xicos.reversisec2.Reversi.Coord;
 import isec.xicos.reversisec2.Reversi.ReversicoXi;
+
 
 
 public class PvsAI_Activity extends AppCompatActivity {
