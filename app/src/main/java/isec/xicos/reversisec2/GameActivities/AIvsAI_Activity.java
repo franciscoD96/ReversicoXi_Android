@@ -42,7 +42,7 @@ public class AIvsAI_Activity extends AppCompatActivity {
             AI2 = i.getStringExtra("AI2");
 
             jogadorAtual = (Math.random() > 0.5) ? 1 : 2;
-            reversi = new ReversicoXi(jogadorAtual, getString(R.string.dumbAI), getString(R.string.smartAI));
+            reversi = new ReversicoXi(jogadorAtual, getString(R.string.dumbAI), getString(R.string.smartAI), this.getApplicationContext());
             actualizaTabuleiro( reversi.getCampo() );
         }
 
@@ -50,7 +50,7 @@ public class AIvsAI_Activity extends AppCompatActivity {
         findViewById(R.id.btnNovoJogo).setOnClickListener(listener -> {
 
             jogadorAtual = (Math.random() > 0.5) ? 1 : 2;
-            reversi = new ReversicoXi(jogadorAtual, getString(R.string.dumbAI), getString(R.string.smartAI));
+            reversi = new ReversicoXi(jogadorAtual, getString(R.string.dumbAI), getString(R.string.smartAI), this.getApplicationContext());
             actualizaTabuleiro( reversi.getCampo() );
         });
         findViewById(R.id.btnJogada).setOnClickListener(listener -> {

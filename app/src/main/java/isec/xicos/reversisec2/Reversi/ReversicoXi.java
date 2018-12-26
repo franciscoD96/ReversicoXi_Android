@@ -1,16 +1,33 @@
 package isec.xicos.reversisec2.Reversi;
 
+import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.io.SyncFailedException;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import isec.xicos.reversisec2.R;
+
 import static java.lang.Math.abs;
 import static java.lang.Thread.sleep;
+import static java.util.Calendar.DAY_OF_MONTH;
+import static java.util.Calendar.HOUR_OF_DAY;
+import static java.util.Calendar.MINUTE;
+import static java.util.Calendar.MONTH;
+import static java.util.Calendar.YEAR;
 
 public class ReversicoXi implements Serializable {
 
@@ -223,47 +240,6 @@ public class ReversicoXi implements Serializable {
         return ret;
     }
 
-
-    private List<List<Celula>> campo;       public List<List<Celula>> getCampo() { return campo; }
-    private List<Coord> posJogaveis;        public List<Coord> getPosJogaveis() { return posJogaveis; }
-    private List<List<Coord>> posAComer;
-    private List<List<List<Celula>>> historicoJogo = new ArrayList<>();
-    private int jogadorAtual = 1;           public int getJogadorAtual() { return jogadorAtual; }
-    String R_dumbAI, R_smartAI;
-
-
-    private boolean writeFinishedGameToUserFile() { // chamar no fim de jogo terminado dentro desta classe
-
-return false;    }
-
-    public boolean checkIsJogadaValida(Coord c) {
-        for (Coord co : posJogaveis)
-            if (co.getX() == c.getX() && co.getY() == c.getY())
-                return true;
-        return false;
-    }
-    private void inicializaCampo() {
-        this.campo = new ArrayList<List<Celula>>();
-        for(int i = 0; i < 8; i++)
-            campo.add( new ArrayList<Celula>());
-        for(int i = 0 ; i < 8 ; i++)
-            for (int j = 0; j < 8; j++)
-                campo.get(i).add( new Celula());
-        campo.get(3).get(3).setBranco();
-        campo.get(4).get(4).setBranco();
-        campo.get(3).get(4).setPreto();
-        campo.get(4).get(3).setPreto();
-    }
-
-    public ReversicoXi(int player, String R_dumbAI, String R_smartAI) {
-        inicializaCampo();
-        jogadorAtual = player;
-        marcaPosicoesLivres(jogadorAtual);
-        this.R_dumbAI = R_dumbAI;
-        this.R_smartAI = R_smartAI;
-    }
-
-
     private void testarFimDeJogo() {
 
         int oQueJogou = jogadorAtual;
@@ -280,12 +256,100 @@ return false;    }
             jogadorAtual = oQueVaiJogar;
     }
 
+    private void inicializaCampo() {
+        this.campo = new ArrayList<List<Celula>>();
+        for(int i = 0; i < 8; i++)
+            campo.add( new ArrayList<Celula>());
+        for(int i = 0 ; i < 8 ; i++)
+            for (int j = 0; j < 8; j++)
+                campo.get(i).add( new Celula());
+        campo.get(3).get(3).setBranco();
+        campo.get(4).get(4).setBranco();
+        campo.get(3).get(4).setPreto();
+        campo.get(4).get(3).setPreto();
+    }
 
+    public class Campo implements Serializable {
+        private List<List<Celula>> campo;
+        public List<List<Celula>> getCampo() { return campo; }
+        public Campo(List<List<Celula>> c) {this.campo = c;}
+    }
 
-     /*TODO:
-        //guardar mapa p o historico
-        historicoJogo.add(campo);
-*/
+    private List<List<Celula>> campo;       public List<List<Celula>> getCampo() { return campo; }
+    private List<Coord> posJogaveis;        public List<Coord> getPosJogaveis() { return posJogaveis; }
+    private List<List<Coord>> posAComer;
+    private List<List<List<Celula>>> historicoJogo = new ArrayList<>();
+    private int jogadorAtual = 1;           public int getJogadorAtual() { return jogadorAtual; }
+    private String nomeFicheiro;
+    private String R_dumbAI, R_smartAI;
+    private Context context;
+
+    public ReversicoXi(int player, String R_dumbAI, String R_smartAI, Context ctx) {
+        inicializaCampo();
+        jogadorAtual = player;
+        marcaPosicoesLivres(jogadorAtual);
+        this.R_dumbAI = R_dumbAI;
+        this.R_smartAI = R_smartAI;
+        nomeFicheiro = "" + Calendar.getInstance().get(HOUR_OF_DAY) + ":" +
+                Calendar.getInstance().get(MINUTE) + " " +
+                Calendar.getInstance().get(DAY_OF_MONTH) + "-" +
+                Calendar.getInstance().get(MONTH) + "-" +
+                Calendar.getInstance().get(YEAR);
+        context = ctx;
+
+        createFile();
+    }
+
+    public boolean checkIsJogadaValida(Coord c) {
+        for (Coord co : posJogaveis)
+            if (co.getX() == c.getX() && co.getY() == c.getY())
+                return true;
+        return false;
+    }
+    private void createFile() {
+        try {
+            File myDir = context.getDir( "jogosFeitos", context.MODE_PRIVATE);
+            File file = new File (myDir, nomeFicheiro);
+            FileOutputStream fileOutputStream = context.openFileOutput(file.getName(), context.MODE_PRIVATE);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+
+            objectOutputStream.writeObject(R_dumbAI);
+            objectOutputStream.writeObject(R_smartAI);
+
+            Log.d("fileCreate", "File Created");
+
+            objectOutputStream.close();
+            fileOutputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (SyncFailedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void writeBoardToFile() {
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream("" + context.getFilesDir().getPath().toString() + File.pathSeparator + "jogosFeitos" + File.pathSeparator + nomeFicheiro, true);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            Campo c = new Campo(campo);
+            objectOutputStream.writeObject(c);
+
+            fileOutputStream.getFD().sync(); // força a descarga dos buffers
+            Log.d("fileWrite", "Board Writen");
+
+            objectOutputStream.close();
+            fileOutputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (SyncFailedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
 
@@ -310,6 +374,8 @@ return false;    }
         };
         new Thread(makeUserWet).start();
 
+        writeBoardToFile();
+
         if (jogadorAtual > 0) {
 
             return new ArrayList<Integer>() { // retorna os pontos de cada jogador
@@ -317,8 +383,6 @@ return false;    }
         } else
             return new ArrayList<Integer>();
     }
-
-
 
     // __ AI vs AI __
     public int jogadaAIvsAI(String inteligenciaAI) {
@@ -345,6 +409,7 @@ return false;    }
 
 
         testarFimDeJogo();
+        writeBoardToFile();
 
         limpaMarcadoresJogaveis();
         marcaPosicoesLivres(jogadorAtual);
@@ -352,8 +417,7 @@ return false;    }
         return jogadorAtual;
     }
 
-
-// __ P vs AI __
+    // __ P vs AI __
     public List<Integer> jogadaAIvsP(String inteligenciaAI) {
         // Inteligencia implementada: consistência nas jogadas, em que tende para jogar sempre para o lado inferior direito do mapa
         //mas dá prioridade a uma jogada com maior número de pontos a ganhar.
@@ -381,19 +445,19 @@ return false;    }
             aJogar = posJogaveis.get(0);
         }
 
-
         realizaJogada(jogadorAtual, aJogar.getX(), aJogar.getY());
 
         limpaMarcadoresJogaveis();
 
         testarFimDeJogo();
+        writeBoardToFile();
 
-        if (jogadorAtual > 0) {
-            marcaPosicoesLivres(jogadorAtual); // para o user
-            return new ArrayList<Integer>() { // retorna os pontos de cada jogador
+        marcaPosicoesLivres(jogadorAtual); // para o user
+        List<Integer> ret = new ArrayList<Integer>() { // retorna os pontos de cada jogador
                 { add(calculaPontosAtuais(1)); add(calculaPontosAtuais(2)); }};
-        } else
-            return new ArrayList<Integer>();
+        if (jogadorAtual == 0)
+            ret.add("blabla".indexOf(1));
+        return ret;
     }
     public List<Integer> jogadaPvsAI(Coord j) {
         realizaJogada(jogadorAtual, j.getX(), j.getY());
@@ -401,6 +465,7 @@ return false;    }
         limpaMarcadoresJogaveis();
 
         testarFimDeJogo();
+        writeBoardToFile();
 
         List<Integer> ret = new ArrayList<Integer>() { // retorna os pontos de cada jogador
             { add(calculaPontosAtuais(1)); add(calculaPontosAtuais(2)); }};

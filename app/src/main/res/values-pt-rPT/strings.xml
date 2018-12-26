@@ -35,5 +35,9 @@
     <string name="gameEnded">Jogo Terminado!</string>
     <string name="won">ganhou!</string>
     <string name="itsADraw">É um empate!</string>
-
+    <string name="WaitingConnection">Esperando ligação...</string>
+    <string name="typeIP">Escreva o IP do seu amigo...</string>
+    <string name="yourIPis">O seu IP é:</string>
+    <string name="seeSavedGames">Ver Jogos Guardados</string>
+    <string name="chooseFile">Escolha o ficheiro</string>
 </resources>

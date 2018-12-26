@@ -3,6 +3,7 @@ package isec.xicos.reversisec2.UserProfile;
 import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.PersistableBundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -34,38 +35,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import isec.xicos.reversisec2.HistoricoJogo;
 import isec.xicos.reversisec2.R;
-
-
-class UserDetails implements Serializable {
-    private String username = "";
-    private int jogosGanhos = 0;
-    private int jogosPerdidos = 0;
-
-    public UserDetails(String u) { username = u; }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-    public String getUsername() {
-        return username;
-    }
-
-    public int getJogosGanhos() {
-        return jogosGanhos;
-    }
-    public void setJogosGanhos(int jogosGanhos) {
-        this.jogosGanhos = jogosGanhos;
-    }
-
-    public int getJogosPerdidos() {
-        return jogosPerdidos;
-    }
-    public void setJogosPerdidos(int jogosPerdidos) {
-        this.jogosPerdidos = jogosPerdidos;
-    }
-}
-
 
 
 public class UserProfileActivity extends AppCompatActivity {
@@ -110,14 +81,13 @@ public class UserProfileActivity extends AppCompatActivity {
 
         findViewById(R.id.btn_takeNewPhoto).setOnClickListener(listener -> { });
 
+        findViewById(R.id.btn_VerJogosANteriores).setOnClickListener(listener -> {
+            Intent i = new Intent(this, HistoricoJogo.class);
+            startActivity(i);
+        });
+
         updateTextView();
 
-
-        //----------------------- debug ------------------------------
-        debug = findViewById(R.id.debugTV);
-        for (File fi : internalDirectory.listFiles())
-            debug.setText("" + debug.getText() + "\n" + fi.getName());
-        //------------------------------------------------------------
     }
 
     private void updateTextView () {
@@ -130,26 +100,31 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     // --- file utils ---
-    public boolean setUserFile(){
+    private boolean setUserFile(){
         try {
             FileOutputStream fileOutputStream = new FileOutputStream("" + getBaseContext().getFilesDir().getPath().toString() + File.pathSeparator + userFile/*userFile*/);//openFileOutput(userFile, Context.MODE_PRIVATE);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(userDetails);
             fileOutputStream.getFD().sync(); // boas práticas
+            objectOutputStream.close();
+            fileOutputStream.close();
             return true;
         } catch (FileNotFoundException e) { e.printStackTrace(); return false; }
           catch (IOException e) { e.printStackTrace(); return false; }
     }
 
-    public boolean getUserFile() {
+    private boolean getUserFile() {
         try {
             FileInputStream fileInputStream = new FileInputStream("" + getBaseContext().getFilesDir().getPath().toString() + File.pathSeparator + userFile);
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
             userDetails = (UserDetails) objectInputStream.readObject();
+            objectInputStream.close();
+            fileInputStream.close();
             return true;
         } catch (FileNotFoundException e) {e.printStackTrace();}
         catch (IOException e) { e.printStackTrace();}
         finally { return false; }
-
     }
+
+
 }

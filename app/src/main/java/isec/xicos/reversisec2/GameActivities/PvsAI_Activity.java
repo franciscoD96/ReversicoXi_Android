@@ -63,7 +63,7 @@ public class PvsAI_Activity extends AppCompatActivity {
                 tv1 = "(" + nivelAI + ") " + getText(R.string.whites) + ": \n"
                         + "(" + getText(R.string.user) + ") " + getText(R.string.blacks) + ": ";
 
-            reversi = new ReversicoXi(playerN, getString(R.string.dumbAI), getString(R.string.smartAI));
+            reversi = new ReversicoXi(playerN, getString(R.string.dumbAI), getString(R.string.smartAI), this.getApplicationContext());
             pontos = new ArrayList<Integer>() {{ add(2); add(2); }};
         }
 

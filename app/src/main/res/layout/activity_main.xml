@@ -268,13 +268,84 @@
         </LinearLayout>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_networkPlay"
-        android:animateLayoutChanges="true"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/networkPlayBtn"
-        android:textAllCaps="false"/>
-
-
+        android:orientation="vertical"
+        android:animateLayoutChanges="true">
+        <Button
+            android:id="@+id/btn_networkPlay"
+            android:animateLayoutChanges="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/networkPlayBtn"
+            android:textAllCaps="false"/>
+        <LinearLayout
+            android:visibility="gone"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/LLjogaremRede"
+            android:orientation="vertical"
+            android:layout_marginBottom="10dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/playAs"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="4dp"
+                    />
+                <RadioGroup
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/RG_PvsP_Server"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+                    <android.support.v7.widget.AppCompatRadioButton
+                        android:id="@+id/RB_PvsP_sP"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/whites"
+                        android:checked="true"/>
+                    <android.support.v7.widget.AppCompatRadioButton
+                        android:id="@+id/RB_PvsP_sB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/blacks"
+                        android:checked="false"/>
+                </RadioGroup>
+                <Button
+                    android:id="@+id/btn_BeAServer"
+                    android:layout_gravity="right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/server"
+                    android:textAllCaps="false"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="10dp">
+                <EditText
+                    android:layout_weight="1"
+                    android:paddingTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ip_EditText"
+                    android:hint="@string/typeIP"/>
+                <Button
+                    android:id="@+id/btn_BeAClient"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/connect"
+                    android:textAllCaps="false"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

@@ -33,4 +33,11 @@
     <string name="gameEnded">Game Finished!</string>
     <string name="won">won!</string>
     <string name="itsADraw">It\'s a draw!</string>
+    <string name="WaitingConnection">Waiting for connection...</string>
+    <string name="typeIP">Type your friend\'s IP...</string>
+    <string name="yourIPis">Your IP is:</string>
+    <string name="seeSavedGames">See Saved Games</string>
+    <string name="chooseFile">Choose file</string>
+    <string name="prev"><![CDATA[<-]]></string>
+    <string name="next"><![CDATA[->]]></string>
 </resources>

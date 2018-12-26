@@ -50,7 +50,7 @@ public class PvsP_Activity extends AppCompatActivity {
                 tv1 = "(" + getString(R.string.GuestPlayer) + ") " + getText(R.string.whites) + ": \n"
                         + "(" + getText(R.string.localPlayer) + ") " + getText(R.string.blacks) + ": ";
 
-            reversi = new ReversicoXi(playerN, "não", "importa");
+            reversi = new ReversicoXi(playerN, "Player 1", "Player 2", this.getApplicationContext());
             pontos = new ArrayList<Integer>() {{ add(2); add(2); }};
         }
 
@@ -91,10 +91,10 @@ public class PvsP_Activity extends AppCompatActivity {
                     @Override
                     public void onFinish() {
                         actualizaVistaTabuleiro(reversi.getCampo());
-                        if(pontos.size() == 0) {
-                            endGame();
-                        } else
+                        if(pontos.size() != 2)
                             lockAcesso = false;
+                        else
+                            endGame();
                     }
 
                 }.start();
@@ -124,6 +124,9 @@ public class PvsP_Activity extends AppCompatActivity {
         });
         builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.cancel());
         builder.show();
+
+
+        //
     }
 
 

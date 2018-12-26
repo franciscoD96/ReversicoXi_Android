@@ -3,7 +3,6 @@ package isec.xicos.reversisec2;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -12,18 +11,24 @@ import android.widget.RadioGroup;
 import isec.xicos.reversisec2.GameActivities.AIvsAI_Activity;
 import isec.xicos.reversisec2.GameActivities.PvsAI_Activity;
 import isec.xicos.reversisec2.GameActivities.PvsP_Activity;
-import isec.xicos.reversisec2.GameActivities.RemoteGame_Activity;
 import isec.xicos.reversisec2.UserProfile.UserProfileActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    LinearLayout LL_AIvsAI, LLjogarvsAI, LLjogarvsAmigo;
 
+
+    LinearLayout LL_AIvsAI, LLjogarvsAI, LLjogarvsAmigo, LLjogaremRede;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //  __ Go to Perfil
+        findViewById(R.id.btnVerPerfil).setOnClickListener(listener -> {
+            Intent i = new Intent(this, UserProfileActivity.class);
+            startActivity(i);
+        });
 
         //  __ AI vs AI
         LL_AIvsAI = findViewById(R.id.LL_AIvsAI);
@@ -49,9 +54,9 @@ public class MainActivity extends AppCompatActivity {
                 findViewById(R.id.LLjogarvsAI).setVisibility(View.GONE);
         });
         findViewById(R.id.startPvsAIgame).setOnClickListener(listener -> {
-            String jogarComo = (String)((RadioButton) findViewById(((RadioGroup) findViewById(R.id.RG_PvsAI_numPlayer)).getCheckedRadioButtonId())).getText();
+            String jogarComo = (String) ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.RG_PvsAI_numPlayer)).getCheckedRadioButtonId())).getText();
             int playerN = 0;
-            if(jogarComo.equals(getString(R.string.whites)))
+            if (jogarComo.equals(getString(R.string.whites)))
                 playerN = 1;
             else if (jogarComo.equals(getString(R.string.blacks)))
                 playerN = 2;
@@ -71,9 +76,9 @@ public class MainActivity extends AppCompatActivity {
                 findViewById(R.id.LLjogarvsAmigo).setVisibility(View.GONE);
         });
         findViewById(R.id.startPvsPamigo).setOnClickListener(listener -> {
-            String jogarComo = (String)((RadioButton) findViewById(((RadioGroup) findViewById(R.id.RG_PvsP_Residente)).getCheckedRadioButtonId())).getText();
+            String jogarComo = (String) ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.RG_PvsP_Residente)).getCheckedRadioButtonId())).getText();
             int playerN = 0;
-            if(jogarComo.equals(getString(R.string.whites)))
+            if (jogarComo.equals(getString(R.string.whites)))
                 playerN = 1;
             else if (jogarComo.equals(getString(R.string.blacks)))
                 playerN = 2;
@@ -83,15 +88,5 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
         });
 
-        //  __ Go to Perfil
-        findViewById(R.id.btnVerPerfil).setOnClickListener(listener -> {
-            Intent i = new Intent(this, UserProfileActivity.class);
-            startActivity(i);
-        });
-
-        findViewById(R.id.btn_networkPlay).setOnClickListener(listener -> {
-            Intent i = new Intent(this, RemoteGame_Activity.class);
-            startActivity(i);
-        });
     }
 }
