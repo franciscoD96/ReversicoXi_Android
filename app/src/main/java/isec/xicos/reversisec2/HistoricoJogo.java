@@ -109,7 +109,9 @@ public class HistoricoJogo extends AppCompatActivity {
 
     private Boolean carregaFicheiro(String nomeFicheiro) {
         try {
-            FileInputStream fileInputStream = new FileInputStream(nomeFicheiro);
+            //File myDir = getDir( "jogosFeitos", MODE_PRIVATE);
+            File file = new File(getFilesDir(), nomeFicheiro);
+            FileInputStream fileInputStream = new FileInputStream(file);
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
 
             ((TextView)findViewById(R.id.tv_Topo_HistoricoJogo)).

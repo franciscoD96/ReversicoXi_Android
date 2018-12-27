@@ -5,9 +5,11 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.io.SyncFailedException;
@@ -19,8 +21,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import isec.xicos.reversisec2.GameActivities.AIvsAI_Activity;
 import isec.xicos.reversisec2.R;
+import isec.xicos.reversisec2.UserProfile.UserDetails;
 
+import static isec.xicos.reversisec2.UserProfile.UserProfileActivity.userFile;
 import static java.lang.Math.abs;
 import static java.lang.Thread.sleep;
 import static java.util.Calendar.DAY_OF_MONTH;
@@ -254,6 +259,42 @@ public class ReversicoXi implements Serializable {
                 jogadorAtual = oQueJogou;
         } else
             jogadorAtual = oQueVaiJogar;
+
+        if (jogadorAtual == 0) {
+
+            UserDetails userDetails = null;
+
+            try {
+                FileInputStream fileInputStream = new FileInputStream("" + context.getFilesDir().getPath().toString() + File.pathSeparator + userFile);
+                ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+                userDetails = (UserDetails) objectInputStream.readObject();
+                objectInputStream.close();
+                fileInputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            if (userDetails == null) return;
+            if (calculaPontosAtuais(1) > calculaPontosAtuais(2))
+                userDetails.setJogosGanhos(userDetails.getJogosGanhos() + 1);
+            else
+                userDetails.setJogosPerdidos(userDetails.getJogosPerdidos() + 1);
+
+            try {
+                FileOutputStream fileOutputStream = new FileOutputStream(context.getFilesDir().getPath().toString() + File.pathSeparator + userFile/*userFile*/);//openFileOutput(userFile, Context.MODE_PRIVATE);
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+                objectOutputStream.writeObject(userDetails);
+                fileOutputStream.getFD().sync(); // boas práticas
+                objectOutputStream.close();
+                fileOutputStream.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
     private void inicializaCampo() {
@@ -288,8 +329,7 @@ public class ReversicoXi implements Serializable {
         inicializaCampo();
         jogadorAtual = player;
         marcaPosicoesLivres(jogadorAtual);
-        this.R_dumbAI = R_dumbAI;
-        this.R_smartAI = R_smartAI;
+        this.R_dumbAI = R_dumbAI; this.R_smartAI = R_smartAI;
         nomeFicheiro = "" + Calendar.getInstance().get(HOUR_OF_DAY) + ":" +
                 Calendar.getInstance().get(MINUTE) + " " +
                 Calendar.getInstance().get(DAY_OF_MONTH) + "-" +
@@ -331,7 +371,7 @@ public class ReversicoXi implements Serializable {
 
     private void writeBoardToFile() {
         try {
-            FileOutputStream fileOutputStream = new FileOutputStream("" + context.getFilesDir().getPath().toString() + File.pathSeparator + "jogosFeitos" + File.pathSeparator + nomeFicheiro, true);
+            FileOutputStream fileOutputStream = context.openFileOutput(nomeFicheiro, context.MODE_APPEND);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
             Campo c = new Campo(campo);
             objectOutputStream.writeObject(c);
@@ -363,7 +403,7 @@ public class ReversicoXi implements Serializable {
         testarFimDeJogo();
 
         Object lock = new Object();
-        Runnable makeUserWet = () -> {
+        Runnable makeUserWet = () -> {                                              // to see
             try {
                 sleep(1000);
             } catch (InterruptedException e) {
@@ -376,18 +416,21 @@ public class ReversicoXi implements Serializable {
 
         writeBoardToFile();
 
-        if (jogadorAtual > 0) {
-
-            return new ArrayList<Integer>() { // retorna os pontos de cada jogador
-                { add(calculaPontosAtuais(1)); add(calculaPontosAtuais(2)); }};
-        } else
-            return new ArrayList<Integer>();
+        List<Integer> ret = new ArrayList<Integer>() { // retorna os pontos de cada jogador
+            { add(calculaPontosAtuais(1)); add(calculaPontosAtuais(2)); }};
+        if (jogadorAtual == 0)
+            ret.add("blabla".indexOf(1));
+        return ret;
     }
 
     // __ AI vs AI __
-    public int jogadaAIvsAI(String inteligenciaAI) {
+    public List<Integer> jogadaAIvsAI() {
 
         Coord aJogar = null;
+        String inteligenciaAI;
+
+        if (jogadorAtual == 1) inteligenciaAI = AIvsAI_Activity.AI1;
+        else inteligenciaAI = AIvsAI_Activity.AI1;
 
         if (inteligenciaAI.equals( R_smartAI )) {
             int maiorNrdePontos = 0;
@@ -405,7 +448,8 @@ public class ReversicoXi implements Serializable {
             aJogar = posJogaveis.get(0);
         }
 
-        realizaJogada(jogadorAtual, aJogar.getX(), aJogar.getY());
+        if (aJogar != null)
+            realizaJogada(jogadorAtual, aJogar.getX(), aJogar.getY());
 
 
         testarFimDeJogo();
@@ -414,7 +458,11 @@ public class ReversicoXi implements Serializable {
         limpaMarcadoresJogaveis();
         marcaPosicoesLivres(jogadorAtual);
 
-        return jogadorAtual;
+        List<Integer> ret = new ArrayList<Integer>() { // retorna os pontos de cada jogador
+            { add(calculaPontosAtuais(1)); add(calculaPontosAtuais(2)); }};
+        if (jogadorAtual == 0)
+            ret.add("O jogo acabou".indexOf(1));
+        return ret;
     }
 
     // __ P vs AI __

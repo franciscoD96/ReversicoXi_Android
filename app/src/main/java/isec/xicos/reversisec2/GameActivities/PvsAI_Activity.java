@@ -58,10 +58,10 @@ public class PvsAI_Activity extends AppCompatActivity {
             nivelAI = received.getStringExtra("NivelAI");
             if (playerN == 1)
                 tv1 = "(" + getText(R.string.user) + ") " + getText(R.string.whites) + ": \n"
-                        + "(" + nivelAI + ") " + getText(R.string.blacks) + ": ";
+                    + "(" + nivelAI + ") " + getText(R.string.blacks) + ": ";
             else
                 tv1 = "(" + nivelAI + ") " + getText(R.string.whites) + ": \n"
-                        + "(" + getText(R.string.user) + ") " + getText(R.string.blacks) + ": ";
+                    + "(" + getText(R.string.user) + ") " + getText(R.string.blacks) + ": ";
 
             reversi = new ReversicoXi(playerN, getString(R.string.dumbAI), getString(R.string.smartAI), this.getApplicationContext());
             pontos = new ArrayList<Integer>() {{ add(2); add(2); }};
@@ -105,19 +105,13 @@ public class PvsAI_Activity extends AppCompatActivity {
                     @Override
                     public void onFinish() {
                         pontos = (ArrayList)reversi.jogadaAIvsP(nivelAI);
-                        if (pontos.size() == 2) {
-                            ((TextView) findViewById(R.id.tv_PvsAI2)).setText("" + pontos.get(0) + " pontos\n" + pontos.get(1) + " pontos");
-                            actualizaVistaTabuleiro(reversi.getCampo());
+                        ((TextView) findViewById(R.id.tv_PvsAI2)).setText("" + pontos.get(0) + " pontos\n" + pontos.get(1) + " pontos");
+                        actualizaVistaTabuleiro(reversi.getCampo());
+                        if (pontos.size() == 2)
                             lockAcesso = false;
-                        }else{
-                            actualizaVistaTabuleiro(reversi.getCampo());
-                            if(pontos.size() == 0) {
-                                endGame();
-                            } else
-                                lockAcesso = false;
-                        }
+                        else
+                            endGame();
                     }
-
                 }.start();
 
             } else {
@@ -129,22 +123,15 @@ public class PvsAI_Activity extends AppCompatActivity {
     }
 
     private void endGame() {
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        if (pontos.get(0) != pontos.get(1))
+        if (pontos.get(0) != pontos.get(1)) // empate ?
             if (pontos.get(0) > pontos.get(1))
                 builder.setTitle("" + getString(R.string.gameEnded) + "\n" + getString(R.string.whites) + " " + getString(R.string.won) );
             else
                 builder.setTitle("" + getString(R.string.gameEnded) + "\n" + getString(R.string.blacks) + " " + getString(R.string.won) );
         else
             builder.setTitle("" + getString(R.string.gameEnded) + "\n" + getString(R.string.itsADraw) );
-
-        builder.setPositiveButton("OK", (dialog, which) -> {
-
-        });
-        builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.cancel());
-        builder.show();
+        builder.setPositiveButton("OK", (dialog, which) -> {});
     }
 
     // Modelo

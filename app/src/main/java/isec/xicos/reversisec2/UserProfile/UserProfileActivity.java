@@ -81,10 +81,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
         findViewById(R.id.btn_takeNewPhoto).setOnClickListener(listener -> { });
 
-        findViewById(R.id.btn_VerJogosANteriores).setOnClickListener(listener -> {
-            Intent i = new Intent(this, HistoricoJogo.class);
-            startActivity(i);
-        });
+
 
         updateTextView();
 

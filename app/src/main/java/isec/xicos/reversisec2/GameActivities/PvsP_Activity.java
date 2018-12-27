@@ -45,10 +45,10 @@ public class PvsP_Activity extends AppCompatActivity {
             int playerN = received.getIntExtra("JogadorResidente", 0); if(playerN == 0) throw new IndexOutOfBoundsException();
             if (playerN == 1)
                 tv1 = "(" + getText(R.string.localPlayer) + ") " + getText(R.string.whites) + ": \n"
-                        + "(" + getString(R.string.GuestPlayer) + ") " + getText(R.string.blacks) + ": ";
+                    + "(" + getString(R.string.GuestPlayer) + ") " + getText(R.string.blacks) + ": ";
             else
                 tv1 = "(" + getString(R.string.GuestPlayer) + ") " + getText(R.string.whites) + ": \n"
-                        + "(" + getText(R.string.localPlayer) + ") " + getText(R.string.blacks) + ": ";
+                    + "(" + getText(R.string.localPlayer) + ") " + getText(R.string.blacks) + ": ";
 
             reversi = new ReversicoXi(playerN, "Player 1", "Player 2", this.getApplicationContext());
             pontos = new ArrayList<Integer>() {{ add(2); add(2); }};

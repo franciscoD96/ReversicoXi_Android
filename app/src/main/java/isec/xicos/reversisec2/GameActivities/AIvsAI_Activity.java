@@ -2,6 +2,7 @@ package isec.xicos.reversisec2.GameActivities;
 
 import android.content.Intent;
 import android.os.PersistableBundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,9 +22,10 @@ import static android.widget.Toast.makeText;
 public class AIvsAI_Activity extends AppCompatActivity {
 
     ReversicoXi reversi;
-    String AI1, AI2;
-    int jogadorAtual;
+    public static String AI1;
+    public static String AI2;
     TextView tv;
+    List<Integer> pontos;
 
 
     @Override
@@ -35,29 +37,29 @@ public class AIvsAI_Activity extends AppCompatActivity {
             AI1 = savedInstanceState.getString("AI1");
             AI2 = savedInstanceState.getString("AI2");
             reversi = (ReversicoXi) savedInstanceState.getSerializable("reversi");
-            jogadorAtual = savedInstanceState.getInt("jogadorAtual");
         } else {
             Intent i = getIntent();
             AI1 = i.getStringExtra("AI1");
             AI2 = i.getStringExtra("AI2");
 
-            jogadorAtual = (Math.random() > 0.5) ? 1 : 2;
-            reversi = new ReversicoXi(jogadorAtual, getString(R.string.dumbAI), getString(R.string.smartAI), this.getApplicationContext());
-            actualizaTabuleiro( reversi.getCampo() );
+            reversi = new ReversicoXi( ((Math.random() > 0.5) ? 1 : 2), getString(R.string.dumbAI), getString(R.string.smartAI), this.getApplicationContext());
         }
+
+        actualizaTabuleiro( reversi.getCampo() );
 
         tv = findViewById(R.id.tv1); tv.setText("Brancas = " + AI1 + "\nPretas = " + AI2);
         findViewById(R.id.btnNovoJogo).setOnClickListener(listener -> {
 
-            jogadorAtual = (Math.random() > 0.5) ? 1 : 2;
-            reversi = new ReversicoXi(jogadorAtual, getString(R.string.dumbAI), getString(R.string.smartAI), this.getApplicationContext());
+            reversi = new ReversicoXi( ((Math.random() > 0.5) ? 1 : 2), getString(R.string.dumbAI), getString(R.string.smartAI), this.getApplicationContext());
             actualizaTabuleiro( reversi.getCampo() );
         });
         findViewById(R.id.btnJogada).setOnClickListener(listener -> {
 
-            jogadorAtual = (jogadorAtual == 1) ? reversi.jogadaAIvsAI(AI1) : reversi.jogadaAIvsAI(AI2);
-
+            pontos = reversi.jogadaAIvsAI();
             actualizaTabuleiro(reversi.getCampo());
+
+            if (pontos.size() != 2)
+                endGame();
         });
     }
 
@@ -67,8 +69,17 @@ public class AIvsAI_Activity extends AppCompatActivity {
         outState.putSerializable("reversi", reversi);
         outState.putString("AI1", AI1);
         outState.putString("AI2", AI2);
-        outState.putInt("jogadorAtual", jogadorAtual);
-
+    }
+    private void endGame() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        if (pontos.get(0) != pontos.get(1)) // empate ?
+            if (pontos.get(0) > pontos.get(1))
+                builder.setTitle("" + getString(R.string.gameEnded) + "\n" + getString(R.string.whites) + " " + getString(R.string.won) );
+            else
+                builder.setTitle("" + getString(R.string.gameEnded) + "\n" + getString(R.string.blacks) + " " + getString(R.string.won) );
+        else
+            builder.setTitle("" + getString(R.string.gameEnded) + "\n" + getString(R.string.itsADraw) );
+        builder.setPositiveButton("OK", (dialog, which) -> {});
     }
 
     public void actualizaTabuleiro(List<List<Celula>> c) {

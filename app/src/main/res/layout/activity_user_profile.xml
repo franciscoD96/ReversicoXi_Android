@@ -59,13 +59,7 @@ android:id="@+id/debugTV"
                 android:layout_height="wrap_content"
                 android:textAllCaps="false"
                 android:text="@string/deleteProfile"/>
-            <Button
-                android:id="@+id/btn_VerJogosANteriores"
-                android:textAllCaps="false"
-                android:layout_weight="1"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/viewPastGames"/>
+
         </LinearLayout>
 
         <LinearLayout

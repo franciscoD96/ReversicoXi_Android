@@ -710,18 +710,21 @@
         android:orientation="vertical">
 
         <TextView
+            android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:id="@+id/tv1"/>
 
         <android.support.v7.widget.AppCompatButton
+            android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Novo Jogo"
             android:id="@+id/btnNovoJogo"/>
 
         <android.support.v7.widget.AppCompatButton
+            android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Jogada"

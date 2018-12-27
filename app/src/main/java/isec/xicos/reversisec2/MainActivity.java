@@ -15,9 +15,7 @@ import isec.xicos.reversisec2.UserProfile.UserProfileActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-
-
-    LinearLayout LL_AIvsAI, LLjogarvsAI, LLjogarvsAmigo, LLjogaremRede;
+    LinearLayout LL_AIvsAI, LLjogarvsAI, LLjogarvsAmigo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +25,12 @@ public class MainActivity extends AppCompatActivity {
         //  __ Go to Perfil
         findViewById(R.id.btnVerPerfil).setOnClickListener(listener -> {
             Intent i = new Intent(this, UserProfileActivity.class);
+            startActivity(i);
+        });
+
+        // ver os jogos anteriores
+        findViewById(R.id.btn_VerJogosANteriores).setOnClickListener(listener -> {
+            Intent i = new Intent(this, HistoricoJogo.class);
             startActivity(i);
         });
 
