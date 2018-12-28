@@ -21,6 +21,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import isec.xicos.reversisec2.Reversi.Campo;
 import isec.xicos.reversisec2.Reversi.Celula;
 import isec.xicos.reversisec2.Reversi.ReversicoXi;
 
@@ -33,7 +34,7 @@ public class HistoricoJogo extends AppCompatActivity {
         public Historico() {historicoJogo = new ArrayList<>();}
         public Historico(List<List<List<Celula>>> historicoJogo) {this.historicoJogo = historicoJogo;}
         public List<List<List<Celula>>> getHistoricoJogo() {return historicoJogo;}
-        public void add(ReversicoXi.Campo campo) {historicoJogo.add(campo.getCampo());}
+        public void add(Campo campo) {historicoJogo.add(campo.getCampo());}
         public List<List<Celula>> get(int i) {return historicoJogo.get(i);}
         public int getSize() {return (historicoJogo == null) ? 0 : historicoJogo.size();}
     }
@@ -120,7 +121,7 @@ public class HistoricoJogo extends AppCompatActivity {
 
             historicoJogo = new Historico();
             while(true)
-                historicoJogo.add( (ReversicoXi.Campo)objectInputStream.readObject() );
+                historicoJogo.add( (Campo)objectInputStream.readObject() );
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

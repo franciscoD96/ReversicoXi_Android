@@ -17,6 +17,8 @@ public class MainActivity extends AppCompatActivity {
 
     LinearLayout LL_AIvsAI, LLjogarvsAI, LLjogarvsAmigo;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

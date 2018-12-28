@@ -35,6 +35,12 @@ public class PvsAI_Activity extends AppCompatActivity {
     String tv1 = "", tv2 = "";
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        setContentView(R.layout.activity_p_vs_ai);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_p_vs_ai);

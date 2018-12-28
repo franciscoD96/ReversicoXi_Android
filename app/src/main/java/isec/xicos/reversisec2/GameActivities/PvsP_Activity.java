@@ -91,7 +91,7 @@ public class PvsP_Activity extends AppCompatActivity {
                     @Override
                     public void onFinish() {
                         actualizaVistaTabuleiro(reversi.getCampo());
-                        if(pontos.size() != 2)
+                        if(pontos.size() == 2)
                             lockAcesso = false;
                         else
                             endGame();

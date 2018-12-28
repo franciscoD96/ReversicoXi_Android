@@ -310,12 +310,6 @@ public class ReversicoXi implements Serializable {
         campo.get(4).get(3).setPreto();
     }
 
-    public class Campo implements Serializable {
-        private List<List<Celula>> campo;
-        public List<List<Celula>> getCampo() { return campo; }
-        public Campo(List<List<Celula>> c) {this.campo = c;}
-    }
-
     private List<List<Celula>> campo;       public List<List<Celula>> getCampo() { return campo; }
     private List<Coord> posJogaveis;        public List<Coord> getPosJogaveis() { return posJogaveis; }
     private List<List<Coord>> posAComer;
@@ -419,7 +413,7 @@ public class ReversicoXi implements Serializable {
         List<Integer> ret = new ArrayList<Integer>() { // retorna os pontos de cada jogador
             { add(calculaPontosAtuais(1)); add(calculaPontosAtuais(2)); }};
         if (jogadorAtual == 0)
-            ret.add("blabla".indexOf(1));
+            ret.add(123);
         return ret;
     }
 
