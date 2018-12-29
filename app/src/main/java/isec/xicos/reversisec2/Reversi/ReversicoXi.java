@@ -254,7 +254,7 @@ public class ReversicoXi implements Serializable {
         int oQueJogou = jogadorAtual;
         int oQueVaiJogar = (jogadorAtual == 1) ? 2 : 1;
 
-        marcaPosicoesLivres(oQueVaiJogar); limpaMarcadoresJogaveis();
+        marcaPosicoesLivres(oQueVaiJogar);limpaMarcadoresJogaveis();
         if (posJogaveis.size() == 0) {
             marcaPosicoesLivres(oQueJogou); limpaMarcadoresJogaveis();
             if (posJogaveis.size() == 0)
@@ -520,38 +520,6 @@ public class ReversicoXi implements Serializable {
             ret.add("O jogo acabou".indexOf(1));
         return ret;
     }
-
-    //TODO isto esta por implementar... o que é fixe :)
-    public int testarFimDeJogada(int playingPlayer) {
-        //TODO remover debugging
-        int jogPassado = playingPlayer;//guarda o jogador do inicio
-
-        marcaPosicoesLivres(jogadorAtual);
-        if (posJogaveis.size() == 0) {
-            Log.d("testarFimDeJogada", "posJogaveis == 0 \nJog = " + playingPlayer);
-            playingPlayer = (playingPlayer == 1) ? 2 : 1;//se jogador ==1 ele retorna o jogador 2, senao retorna 1
-            Log.d("testarFimDeJogada", "JogAtual = " + playingPlayer);
-        }
-        else {
-            limpaMarcadoresJogaveis();
-        }
-
-        if(jogPassado != playingPlayer) {
-            marcaPosicoesLivres(jogadorAtual);
-            if (posJogaveis.size() == 0) {
-                Log.d("testarFimDeJogada", "Fim de Jogo");
-                limpaMarcadoresJogaveis();
-                playingPlayer = 0;
-            }
-        }
-
-        /* retorna qual o próximo jogador a jogar.
-        pode tanto ser o mesmo, caso não haja jogadas para o adversário
-        ou pode ser ENDGAME, se o tabuleiro estiver cheio . */
-
-        return playingPlayer;
-    }
-
 
     // __ P vs AI __
     public List<Integer> jogadaAIvsP(String inteligenciaAI) {

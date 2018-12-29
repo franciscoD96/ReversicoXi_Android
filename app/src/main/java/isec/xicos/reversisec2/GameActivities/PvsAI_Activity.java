@@ -131,6 +131,10 @@ public class PvsAI_Activity extends AppCompatActivity {
                 cntJogadasInvalidas = 0;
 
                 pontos = reversi.jogadaPvsAI(c);
+                if (pontos.size() == 2)
+                    lockAcesso = false;
+                else
+                    endGame();
 
                 new CountDownTimer( (Math.round(1000 + (Math.random() * 1000))) , 300) {
                     @Override
@@ -148,12 +152,13 @@ public class PvsAI_Activity extends AppCompatActivity {
                         actualizaVistaTabuleiro(reversi.getCampo());
                         findViewById(R.id.btn_PassarJogada).setEnabled(true);
                         findViewById(R.id.btn_JogarOutraVez).setEnabled(true);
-                        if (reversi.getContadorDeJogadas() > 9)
+                        if (reversi.getContadorDeJogadas() > 9)//TODO POR ISTO A 9
                             findViewById(R.id.LL_Cartas).setVisibility(View.VISIBLE);
                         if (pontos.size() == 2)
                             lockAcesso = false;
                         else
                             endGame();
+
 
 
                     }
@@ -177,6 +182,7 @@ public class PvsAI_Activity extends AppCompatActivity {
         else
             builder.setTitle("" + getString(R.string.gameEnded) + "\n" + getString(R.string.itsADraw) );
         builder.setPositiveButton("OK", (dialog, which) -> {});
+        builder.show();
     }
 
     // Modelo

@@ -21,6 +21,7 @@
         <activity android:name=".HistoricoJogo" />
         <activity android:name=".GameActivities.PvsP_Activity" />
         <activity android:name=".UserProfile.UserProfileActivity" />
+        <activity android:name=".UserProfile.CreditosActivity"></activity>
     </application>
 
 </manifest>

@@ -12,6 +12,7 @@ import android.widget.Toast;
 import isec.xicos.reversisec2.GameActivities.AIvsAI_Activity;
 import isec.xicos.reversisec2.GameActivities.PvsAI_Activity;
 import isec.xicos.reversisec2.GameActivities.PvsP_Activity;
+import isec.xicos.reversisec2.UserProfile.CreditosActivity;
 import isec.xicos.reversisec2.UserProfile.UserProfileActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,8 +28,15 @@ public class MainActivity extends AppCompatActivity {
         //LOGOTIPO + CREDITOS
         LLLogoVer = findViewById(R.id.LLLogoVer);
         findViewById(R.id.LLLogoVer).setOnClickListener(listener -> {
-            Toast.makeText(this, "Creditos em " + counter, Toast.LENGTH_SHORT).show();
-            counter--;
+            if(counter != 0) {
+                Toast.makeText(this, "Creditos em " + counter, Toast.LENGTH_SHORT).show();
+                counter--;
+            }
+            if(counter == 0){
+                counter = 5;
+                Intent i = new Intent(this, CreditosActivity.class);
+                startActivity(i);
+            }
         });
 
         //  __ Go to Perfil
