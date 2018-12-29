@@ -35,12 +35,6 @@ public class PvsAI_Activity extends AppCompatActivity {
     String tv1 = "", tv2 = "";
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        setContentView(R.layout.activity_p_vs_ai);
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_p_vs_ai);
@@ -75,6 +69,44 @@ public class PvsAI_Activity extends AppCompatActivity {
 
         tv2 = "" + pontos.get(0) + " pontos\n" + pontos.get(1) + " pontos";
 
+        findViewById(R.id.btn_PassarJogada).setOnClickListener(listener -> {
+            String str = reversi.passarJogada();
+            Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
+
+            if(str.equals("Ta-Da!"))
+                findViewById(R.id.btn_PassarJogada).setVisibility(View.INVISIBLE);
+
+            pontos = (ArrayList)reversi.jogadaAIvsP(nivelAI);
+
+            new CountDownTimer( (Math.round(1000 + (Math.random() * 1000))) , 300) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    ((TextView) findViewById(R.id.tv_PvsAI2)).setText("" + pontos.get(0) + " pontos\n" + pontos.get(1) + " pontos");
+                    actualizaVistaTabuleiro(reversi.getCampo());
+
+                }
+
+                @Override
+                public void onFinish() {
+                    ((TextView) findViewById(R.id.tv_PvsAI2)).setText("" + pontos.get(0) + " pontos\n" + pontos.get(1) + " pontos");
+                    actualizaVistaTabuleiro(reversi.getCampo());
+
+                    if (pontos.size() == 2)
+                        lockAcesso = false;
+                    else
+                        endGame();
+                }
+            }.start();
+        });
+
+        findViewById(R.id.btn_JogarOutraVez).setOnClickListener(listener -> {
+            reversi.jogarOutraVez();
+            Toast.makeText(this, "Ta-Da!", Toast.LENGTH_SHORT).show();
+            findViewById(R.id.btn_JogarOutraVez).setVisibility(View.INVISIBLE);
+
+
+        });
+
         ((TextView) findViewById(R.id.tv_PvsAI1)).setText(tv1);
         ((TextView) findViewById(R.id.tv_PvsAI2)).setText(tv2);
         actualizaVistaTabuleiro(reversi.getCampo());
@@ -96,27 +128,34 @@ public class PvsAI_Activity extends AppCompatActivity {
         if(!lockAcesso)
             if ( reversi.checkIsJogadaValida(c) ) {
                 lockAcesso = true;
-                cntJogadasInvalidas = 0; // só para não aparecer o toast de todas as vezes que o user se engana
+                cntJogadasInvalidas = 0;
 
                 pontos = reversi.jogadaPvsAI(c);
-
 
                 new CountDownTimer( (Math.round(1000 + (Math.random() * 1000))) , 300) {
                     @Override
                     public void onTick(long millisUntilFinished) {
                         ((TextView) findViewById(R.id.tv_PvsAI2)).setText("" + pontos.get(0) + " pontos\n" + pontos.get(1) + " pontos");
                         actualizaVistaTabuleiro(reversi.getCampo());
+                        findViewById(R.id.btn_PassarJogada).setEnabled(false);
+                        findViewById(R.id.btn_JogarOutraVez).setEnabled(false);
                     }
 
                     @Override
                     public void onFinish() {
-                        pontos = (ArrayList)reversi.jogadaAIvsP(nivelAI);
+                        pontos = (ArrayList) reversi.jogadaAIvsP(nivelAI);
                         ((TextView) findViewById(R.id.tv_PvsAI2)).setText("" + pontos.get(0) + " pontos\n" + pontos.get(1) + " pontos");
                         actualizaVistaTabuleiro(reversi.getCampo());
+                        findViewById(R.id.btn_PassarJogada).setEnabled(true);
+                        findViewById(R.id.btn_JogarOutraVez).setEnabled(true);
+                        if (reversi.getContadorDeJogadas() > 9)
+                            findViewById(R.id.LL_Cartas).setVisibility(View.VISIBLE);
                         if (pontos.size() == 2)
                             lockAcesso = false;
                         else
                             endGame();
+
+
                     }
                 }.start();
 

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UserProfile.UserProfileActivity"
+
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:fillViewport="true">
+
+
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:stretchColumns="1"  >
+
+        <LinearLayout>
+
+        <android.support.v7.widget.AppCompatImageView
+            android:adjustViewBounds="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:src="@drawable/predef_profile_pic"
+            android:id="@+id/userPic"/>
+        </LinearLayout>
+
+        <TextView
+            android:textStyle="bold"
+            android:id="@+id/tv_Username"
+            android:textSize="20dp"
+            android:text="@string/username"
+            android:textAlignment="center"/>
+
+        <LinearLayout
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btn_changeUsername"
+                android:layout_weight="1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAllCaps="false"
+                android:text="@string/changeUsername"/>
+            <Button
+                android:id="@+id/btn_takeNewPhoto"
+                android:textAllCaps="false"
+                android:layout_weight="1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/changeProfilePic"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal">
+            <Button
+                android:layout_weight="1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAllCaps="false"
+                android:text="@string/deleteProfile"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:gravity="center"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_weight="1"
+                android:gravity="right"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/wonGames"/>
+            <TextView
+                android:id="@+id/tv_jogosGanhos"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:gravity="center"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_weight="1"
+                android:gravity="right"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/lostGames"/>
+            <TextView
+                android:id="@+id/tv_jogosPerdidos"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+
+    </TableLayout>
+
+</ScrollView>

@@ -2,25 +2,29 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    tools:context=".GameActivities.PvsAI_Activity"
+    tools:context=".GameActivities.AIvsAI_Activity"
 
-    android:padding="10dp"
-    android:orientation="horizontal"
+    android:padding="20dp"
+    android:orientation="vertical"
     >
 
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:id="@+id/tv1"
+        android:layout_marginBottom="10dp"/>
     <!--tabuleiro-->
     <LinearLayout
-        android:id="@+id/LLtabuleiro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/LLlinha1"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -718,53 +722,15 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <android.support.v7.widget.AppCompatButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="20dp">
-        <TextView
-
-            android:layout_gravity="center"
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_PvsAI1"
-            android:gravity="right"
-            android:textStyle="bold"
-            android:textSize="16sp"/>
-        <TextView
-            android:layout_gravity="center"
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_PvsAI2"
-            android:gravity="left"
-            android:textSize="20sp"/>
-    </LinearLayout>
-    <LinearLayout
-        android:orientation="vertical"
-        android:visibility="gone"
-        android:id="@+id/LL_Cartas"
+        android:text="Novo Jogo"
+        android:id="@+id/btnNovoJogo"/>
+    <android.support.v7.widget.AppCompatButton
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Button
-            android:layout_gravity="center"
-            android:id="@+id/btn_PassarJogada"
-            android:textAllCaps="false"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/passar_jogada"/>
-        <Button
-            android:layout_gravity="center"
-            android:id="@+id/btn_JogarOutraVez"
-            android:textAllCaps="false"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/jogar_outra_vez"/>
-    </LinearLayout>
-
+        android:layout_height="wrap_content"
+        android:text="Jogada"
+        android:id="@+id/btnJogada"/>
 
 </LinearLayout>

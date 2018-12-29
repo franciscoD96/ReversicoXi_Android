@@ -30,6 +30,8 @@ public class PvsP_Activity extends AppCompatActivity {
     List<Integer> pontos;
     String tv1 = "", tv2 = "";
 
+    Boolean u1PJo = false, u2PJo = false, u1PVe = false, u2PVe = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +57,50 @@ public class PvsP_Activity extends AppCompatActivity {
         }
 
         tv2 = "" + pontos.get(0) + " pontos\n" + pontos.get(1) + " pontos";
+
+        findViewById(R.id.btn_PassarJogada).setOnClickListener(listener -> {
+            int jogadorInvocador = reversi.getJogadorAtual();
+            String str = reversi.passarJogadaPVP();
+            Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
+
+            if (jogadorInvocador == 1) {
+                if(str.equals("Ta-Da!")) {
+                    findViewById(R.id.btn_PassarJogada).setVisibility(View.INVISIBLE);
+                    u1PJo = true;
+                    //findViewById(R.id.btn_PassarJogada).setVisibility(View.VISIBLE);
+                }
+            }
+            if (jogadorInvocador == 2) {
+                if(str.equals("Ta-Da!")) {
+                    findViewById(R.id.btn_PassarJogada).setVisibility(View.INVISIBLE);
+                    u2PJo = true;
+                    //findViewById(R.id.btn_PassarJogada).setVisibility(View.VISIBLE);
+                }
+            }
+            actualizaVistaTabuleiro(reversi.getCampo());
+
+
+
+        });
+
+        findViewById(R.id.btn_JogarOutraVez).setOnClickListener(listener -> {
+            reversi.jogarOutraVez();
+            Toast.makeText(this, "Ta-Da!", Toast.LENGTH_SHORT).show();
+            //findViewById(R.id.btn_JogarOutraVez).setVisibility(View.INVISIBLE);
+            int jogadorInvocador = reversi.getJogadorAtual();
+            if (jogadorInvocador == 1) {
+                findViewById(R.id.btn_JogarOutraVez).setVisibility(View.INVISIBLE);
+                u1PVe = true;
+                reversi.JogarOutraVezPvP();
+            }
+            if (jogadorInvocador == 2) {
+                findViewById(R.id.btn_JogarOutraVez).setVisibility(View.INVISIBLE);
+                u2PVe = true;
+                reversi.JogarOutraVezPvP();
+            }
+            actualizaVistaTabuleiro(reversi.getCampo());
+        });
+
 
         ((TextView) findViewById(R.id.tv_PvsAI1)).setText(tv1);
         ((TextView) findViewById(R.id.tv_PvsAI2)).setText(tv2);
@@ -86,15 +132,48 @@ public class PvsP_Activity extends AppCompatActivity {
                     @Override
                     public void onTick(long millisUntilFinished) {
                         ((TextView) findViewById(R.id.tv_PvsAI2)).setText("" + pontos.get(0) + " pontos\n" + pontos.get(1) + " pontos");
+                        findViewById(R.id.btn_PassarJogada).setEnabled(false);
+                        findViewById(R.id.btn_JogarOutraVez).setEnabled(false);
+
                     }
 
                     @Override
                     public void onFinish() {
                         actualizaVistaTabuleiro(reversi.getCampo());
+                        findViewById(R.id.btn_PassarJogada).setEnabled(true);
+                        findViewById(R.id.btn_JogarOutraVez).setEnabled(true);
                         if(pontos.size() == 2)
                             lockAcesso = false;
                         else
                             endGame();
+
+
+                        //TODO nota: o jogador so pode jogar na vez a seguir, e uma feature ( manual )
+                        if (reversi.getContadorDeJogadas() > 9) {//TODO passar para 9
+                            findViewById(R.id.LL_Cartas).setVisibility(View.VISIBLE);//ta certo
+
+                            if (reversi.getJogadorAtual() == 1) {
+                                if (u1PJo == false)
+                                    findViewById(R.id.btn_PassarJogada).setVisibility(View.VISIBLE);
+                                else
+                                    findViewById(R.id.btn_PassarJogada).setVisibility(View.INVISIBLE);
+                                if (u1PVe == false)
+                                    findViewById(R.id.btn_JogarOutraVez).setVisibility(View.VISIBLE);
+                                else
+                                    findViewById(R.id.btn_JogarOutraVez).setVisibility(View.INVISIBLE);
+                            }
+
+                            if (reversi.getJogadorAtual() == 2) {
+                                if (u2PJo == false)
+                                    findViewById(R.id.btn_PassarJogada).setVisibility(View.VISIBLE);
+                                else
+                                    findViewById(R.id.btn_PassarJogada).setVisibility(View.INVISIBLE);
+                                if (u2PVe == false)
+                                    findViewById(R.id.btn_JogarOutraVez).setVisibility(View.VISIBLE);
+                                else
+                                    findViewById(R.id.btn_JogarOutraVez).setVisibility(View.INVISIBLE);
+                            }
+                        }
                     }
 
                 }.start();

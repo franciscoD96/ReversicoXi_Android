@@ -40,4 +40,6 @@
     <string name="chooseFile">Choose file</string>
     <string name="prev"><![CDATA[<-]]></string>
     <string name="next"><![CDATA[->]]></string>
+    <string name="jogar_outra_vez">Play Again</string>
+    <string name="passar_jogada">Pass Turn</string>
 </resources>

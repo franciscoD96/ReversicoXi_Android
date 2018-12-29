@@ -40,4 +40,6 @@
     <string name="yourIPis">O seu IP é:</string>
     <string name="seeSavedGames">Ver Jogos Guardados</string>
     <string name="chooseFile">Escolha o ficheiro</string>
+    <string name="jogar_outra_vez">Jogar outra vez</string>
+    <string name="passar_jogada">Passar Jogada</string>
 </resources>

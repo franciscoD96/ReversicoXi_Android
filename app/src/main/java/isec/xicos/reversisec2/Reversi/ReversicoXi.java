@@ -219,8 +219,9 @@ public class ReversicoXi implements Serializable {
                 else
                     campo.get(c.getY()).get(c.getX()).setPreto();
             }
-
+        ContadorDeJogadas++;
     }
+
     private int calculaPontosAGanhar(int paraPlayer, int x, int y) {
         String player = (paraPlayer == 1) ? "Branco" : "Preto";
         String enemy = (paraPlayer == 1) ? "Preto" : "Branco";
@@ -244,8 +245,11 @@ public class ReversicoXi implements Serializable {
                     ret++;
         return ret;
     }
+    public void trocaJogador(){
+        jogadorAtual = (jogadorAtual == 1) ? 2 : 1;
+    }
 
-    private void testarFimDeJogo() {
+    private int testarFimDeJogo() {
 
         int oQueJogou = jogadorAtual;
         int oQueVaiJogar = (jogadorAtual == 1) ? 2 : 1;
@@ -261,40 +265,11 @@ public class ReversicoXi implements Serializable {
             jogadorAtual = oQueVaiJogar;
 
         if (jogadorAtual == 0) {
-
-            UserDetails userDetails = null;
-
-            try {
-                FileInputStream fileInputStream = new FileInputStream("" + context.getFilesDir().getPath().toString() + File.pathSeparator + userFile);
-                ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-                userDetails = (UserDetails) objectInputStream.readObject();
-                objectInputStream.close();
-                fileInputStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-            if (userDetails == null) return;
-            if (calculaPontosAtuais(1) > calculaPontosAtuais(2))
-                userDetails.setJogosGanhos(userDetails.getJogosGanhos() + 1);
-            else
-                userDetails.setJogosPerdidos(userDetails.getJogosPerdidos() + 1);
-
-            try {
-                FileOutputStream fileOutputStream = new FileOutputStream(context.getFilesDir().getPath().toString() + File.pathSeparator + userFile/*userFile*/);//openFileOutput(userFile, Context.MODE_PRIVATE);
-                ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-                objectOutputStream.writeObject(userDetails);
-                fileOutputStream.getFD().sync(); // boas práticas
-                objectOutputStream.close();
-                fileOutputStream.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
+            finalizeFile();
+            return 0;
         }
+        return jogadorAtual;// manda lixo, nao e necessario
+
     }
 
     private void inicializaCampo() {
@@ -318,6 +293,9 @@ public class ReversicoXi implements Serializable {
     private String nomeFicheiro;
     private String R_dumbAI, R_smartAI;
     private Context context;
+    private int ContadorDeJogadas=0;    public int getContadorDeJogadas() {return ContadorDeJogadas;}
+
+
 
     public ReversicoXi(int player, String R_dumbAI, String R_smartAI, Context ctx) {
         inicializaCampo();
@@ -332,6 +310,52 @@ public class ReversicoXi implements Serializable {
         context = ctx;
 
         createFile();
+    }
+
+    boolean passarJogada = false;
+    public String passarJogada () {
+        if(passarJogada)
+            return "Já utilizou esta carta!";
+
+        int jogadorInvocador = jogadorAtual;
+        testarFimDeJogo();
+
+        marcaPosicoesLivres(jogadorAtual);
+        passarJogada = true;
+
+        return "Ta-Da!";
+    }
+
+    boolean passarJogadaP1 = false, passarJogadaP2 = false;
+    public String passarJogadaPVP(){
+        int jogadorInvocador = jogadorAtual;
+        if(jogadorInvocador == 1 && passarJogadaP1)
+            return "Já utilizou esta carta!";
+        if(jogadorInvocador == 2 && passarJogadaP2)
+            return "Já utilizou esta carta!";
+
+
+        testarFimDeJogo();
+
+        marcaPosicoesLivres(jogadorAtual);
+        if(jogadorInvocador == 1)
+            passarJogadaP1 = true;
+        if(jogadorInvocador == 2)
+            passarJogadaP2 = true;
+
+        return "Ta-Da!";
+
+    }
+
+    boolean jogadaRepetida = false;
+    int jogadaRepetidaPvP=0;//nao aconteceu nenhuma
+    public void jogarOutraVez () {
+        jogadaRepetida = true;
+
+    }
+
+    public void JogarOutraVezPvP(){
+        jogadaRepetidaPvP++;
     }
 
     public boolean checkIsJogadaValida(Coord c) {
@@ -362,7 +386,6 @@ public class ReversicoXi implements Serializable {
             e.printStackTrace();
         }
     }
-
     private void writeBoardToFile() {
         try {
             FileOutputStream fileOutputStream = context.openFileOutput(nomeFicheiro, context.MODE_APPEND);
@@ -378,6 +401,40 @@ public class ReversicoXi implements Serializable {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (SyncFailedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+    private void finalizeFile() {
+        UserDetails userDetails = null;
+
+        try {
+            FileInputStream fileInputStream = new FileInputStream("" + context.getFilesDir().getPath().toString() + File.pathSeparator + userFile);
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+            userDetails = (UserDetails) objectInputStream.readObject();
+            objectInputStream.close();
+            fileInputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (userDetails == null) return;
+        if (calculaPontosAtuais(1) > calculaPontosAtuais(2))
+            userDetails.setJogosGanhos(userDetails.getJogosGanhos() + 1);
+        else
+            userDetails.setJogosPerdidos(userDetails.getJogosPerdidos() + 1);
+
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(context.getFilesDir().getPath().toString() + File.pathSeparator + userFile/*userFile*/);//openFileOutput(userFile, Context.MODE_PRIVATE);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(userDetails);
+            fileOutputStream.getFD().sync(); // boas práticas
+            objectOutputStream.close();
+            fileOutputStream.close();
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
@@ -409,6 +466,11 @@ public class ReversicoXi implements Serializable {
         new Thread(makeUserWet).start();
 
         writeBoardToFile();
+
+        if(jogadaRepetidaPvP == 1 || jogadaRepetidaPvP == 3 ) {
+            jogadaRepetidaPvP++;
+            trocaJogador();
+        }
 
         List<Integer> ret = new ArrayList<Integer>() { // retorna os pontos de cada jogador
             { add(calculaPontosAtuais(1)); add(calculaPontosAtuais(2)); }};
@@ -459,11 +521,59 @@ public class ReversicoXi implements Serializable {
         return ret;
     }
 
+    //TODO isto esta por implementar... o que é fixe :)
+    public int testarFimDeJogada(int playingPlayer) {
+        //TODO remover debugging
+        int jogPassado = playingPlayer;//guarda o jogador do inicio
+
+        marcaPosicoesLivres(jogadorAtual);
+        if (posJogaveis.size() == 0) {
+            Log.d("testarFimDeJogada", "posJogaveis == 0 \nJog = " + playingPlayer);
+            playingPlayer = (playingPlayer == 1) ? 2 : 1;//se jogador ==1 ele retorna o jogador 2, senao retorna 1
+            Log.d("testarFimDeJogada", "JogAtual = " + playingPlayer);
+        }
+        else {
+            limpaMarcadoresJogaveis();
+        }
+
+        if(jogPassado != playingPlayer) {
+            marcaPosicoesLivres(jogadorAtual);
+            if (posJogaveis.size() == 0) {
+                Log.d("testarFimDeJogada", "Fim de Jogo");
+                limpaMarcadoresJogaveis();
+                playingPlayer = 0;
+            }
+        }
+
+        /* retorna qual o próximo jogador a jogar.
+        pode tanto ser o mesmo, caso não haja jogadas para o adversário
+        ou pode ser ENDGAME, se o tabuleiro estiver cheio . */
+
+        return playingPlayer;
+    }
+
+
     // __ P vs AI __
     public List<Integer> jogadaAIvsP(String inteligenciaAI) {
         // Inteligencia implementada: consistência nas jogadas, em que tende para jogar sempre para o lado inferior direito do mapa
         //mas dá prioridade a uma jogada com maior número de pontos a ganhar.
 
+        //TODO falta passar para o jogador a frente..
+//        int testaJogada;//guarda o jogador do inicio
+//        testaJogada = testarFimDeJogada(jogadorAtual);
+//
+//        if (jogadorAtual == 0)
+//            ret.add(1);
+//        return ret;
+
+        if(jogadaRepetida == true){
+            jogadaRepetida=false;
+            trocaJogador();
+            marcaPosicoesLivres(jogadorAtual); // para o user no fim de ele jogar
+            List<Integer> ret = new ArrayList<Integer>() { // retorna os pontos de cada jogador
+                { add(calculaPontosAtuais(1)); add(calculaPontosAtuais(2)); }};
+            return ret;
+        }
 
         limpaMarcadoresJogaveis();
         marcaPosicoesLivres(jogadorAtual); // para a AI
@@ -491,22 +601,23 @@ public class ReversicoXi implements Serializable {
 
         limpaMarcadoresJogaveis();
 
-        testarFimDeJogo();
+        jogadorAtual = testarFimDeJogo();
         writeBoardToFile();
 
         marcaPosicoesLivres(jogadorAtual); // para o user
         List<Integer> ret = new ArrayList<Integer>() { // retorna os pontos de cada jogador
                 { add(calculaPontosAtuais(1)); add(calculaPontosAtuais(2)); }};
         if (jogadorAtual == 0)
-            ret.add("blabla".indexOf(1));
+            ret.add(1);
         return ret;
     }
+
     public List<Integer> jogadaPvsAI(Coord j) {
         realizaJogada(jogadorAtual, j.getX(), j.getY());
 
         limpaMarcadoresJogaveis();
 
-        testarFimDeJogo();
+        jogadorAtual = testarFimDeJogo();
         writeBoardToFile();
 
         List<Integer> ret = new ArrayList<Integer>() { // retorna os pontos de cada jogador

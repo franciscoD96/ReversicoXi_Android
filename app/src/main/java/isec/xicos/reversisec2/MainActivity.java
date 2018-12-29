@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import isec.xicos.reversisec2.GameActivities.AIvsAI_Activity;
 import isec.xicos.reversisec2.GameActivities.PvsAI_Activity;
@@ -15,14 +16,20 @@ import isec.xicos.reversisec2.UserProfile.UserProfileActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    LinearLayout LL_AIvsAI, LLjogarvsAI, LLjogarvsAmigo;
-
-
+    LinearLayout LL_AIvsAI, LLjogarvsAI, LLjogarvsAmigo,LLLogoVer;
+    int counter=5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //LOGOTIPO + CREDITOS
+        LLLogoVer = findViewById(R.id.LLLogoVer);
+        findViewById(R.id.LLLogoVer).setOnClickListener(listener -> {
+            Toast.makeText(this, "Creditos em " + counter, Toast.LENGTH_SHORT).show();
+            counter--;
+        });
 
         //  __ Go to Perfil
         findViewById(R.id.btnVerPerfil).setOnClickListener(listener -> {

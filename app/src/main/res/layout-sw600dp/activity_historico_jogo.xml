@@ -4,20 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GameActivities.PvsAI_Activity"
+    tools:context=".HistoricoJogo"
 
-    android:padding="10dp"
-    android:orientation="horizontal"
-    >
+    android:padding="20dp"
+    android:orientation="vertical">
 
+
+    <TextView
+        android:gravity="center"
+        android:textAllCaps="false"
+        android:text="Escolha um ficheiro"
+        android:id="@+id/tv_Topo_HistoricoJogo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <!--tabuleiro-->
     <LinearLayout
-        android:id="@+id/LLtabuleiro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:id="@+id/LLtabuleiro">
 
         <LinearLayout
             android:id="@+id/LLlinha1"
@@ -721,50 +728,26 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="20dp">
-        <TextView
-
-            android:layout_gravity="center"
-            android:layout_width="match_parent"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/btn_prev"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_PvsAI1"
-            android:gravity="right"
-            android:textStyle="bold"
-            android:textSize="16sp"/>
-        <TextView
-            android:layout_gravity="center"
             android:layout_width="match_parent"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:id="@+id/tv_PvsAI2"
-            android:gravity="left"
-            android:textSize="20sp"/>
+            android:text="@string/prev"/>
+        <Button
+            android:id="@+id/btn_next"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/next"/>
     </LinearLayout>
-    <LinearLayout
-        android:orientation="vertical"
-        android:visibility="gone"
-        android:id="@+id/LL_Cartas"
+
+    <Button
+        android:id="@+id/btn_VerJogosGuardados"
+        android:text="@string/seeSavedGames"
+        android:textAllCaps="false"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Button
-            android:layout_gravity="center"
-            android:id="@+id/btn_PassarJogada"
-            android:textAllCaps="false"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/passar_jogada"/>
-        <Button
-            android:layout_gravity="center"
-            android:id="@+id/btn_JogarOutraVez"
-            android:textAllCaps="false"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/jogar_outra_vez"/>
-    </LinearLayout>
-
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

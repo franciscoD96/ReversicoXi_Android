@@ -29,13 +29,14 @@ import isec.xicos.reversisec2.Reversi.ReversicoXi;
 public class HistoricoJogo extends AppCompatActivity {
 
     class Historico implements Serializable {
-        List<List<List<Celula>>> historicoJogo;
+        List<Campo> historicoJogo;
 
         public Historico() {historicoJogo = new ArrayList<>();}
-        public Historico(List<List<List<Celula>>> historicoJogo) {this.historicoJogo = historicoJogo;}
-        public List<List<List<Celula>>> getHistoricoJogo() {return historicoJogo;}
-        public void add(Campo campo) {historicoJogo.add(campo.getCampo());}
-        public List<List<Celula>> get(int i) {return historicoJogo.get(i);}
+        public Historico(List<Campo> historicoJogo) {this.historicoJogo = historicoJogo;}
+        public List<Campo> getHistoricoJogo() {return historicoJogo;}
+        public void add(Campo campo) {historicoJogo.add(campo);}
+        public Campo get(int i) {return historicoJogo.get(i);}
+        public List<List<Celula>> getAsArrayofArrays(int i) {return historicoJogo.get(i).getCampo();}
         public int getSize() {return (historicoJogo == null) ? 0 : historicoJogo.size();}
     }
 
@@ -53,24 +54,21 @@ public class HistoricoJogo extends AppCompatActivity {
             historicoJogo = ((Historico)savedInstanceState.getSerializable("historico"));
             i = savedInstanceState.getInt("i");
         } else {
-            Intent intent = getIntent();
-            if (intent != null) {
-                historicoJogo = new Historico(((List<List<List<Celula>>>) intent.getSerializableExtra("campo")));
-            }
+            historicoJogo = new Historico();
             i = 0;
         }
 
         findViewById(R.id.btn_prev).setOnClickListener(listener -> {
             if(i > 0) {
                 i--;
-                List<List<Celula>> campoAApresentar = historicoJogo.get(i);
-                actualizaVistaTabuleiro(campoAApresentar);
+                Campo campoAApresentar = historicoJogo.get(i);
+                actualizaVistaTabuleiro(campoAApresentar.getCampo());
             }
         });
         findViewById(R.id.btn_next).setOnClickListener(listener -> {
             if(i < historicoJogo.getSize()) {
                 i++;
-                List<List<Celula>> campoAApresentar = historicoJogo.get(i);
+                List<List<Celula>> campoAApresentar = historicoJogo.getAsArrayofArrays(i);
                 actualizaVistaTabuleiro(campoAApresentar);
             }
         });
@@ -117,26 +115,30 @@ public class HistoricoJogo extends AppCompatActivity {
 
             ((TextView)findViewById(R.id.tv_Topo_HistoricoJogo)).
                     setText( "" + ((String)objectInputStream.readObject()) +
-                           " vs. " + ((String)objectInputStream.readObject()) );
+                        " vs. " + ((String)objectInputStream.readObject()) );
 
             historicoJogo = new Historico();
-            while(true)
-                historicoJogo.add( (Campo)objectInputStream.readObject() );
+            Object readObj;
+
+            while((readObj = objectInputStream.readObject() ) instanceof Campo) {
+                historicoJogo.add((Campo) readObj);
+            }
+
+            if (historicoJogo.getSize() > 0) {
+                actualizaVistaTabuleiro( historicoJogo.getAsArrayofArrays(0) );
+                return true;
+            } else {
+                Toast.makeText(this, "Error", Toast.LENGTH_SHORT);
+                return false;
+            }
 
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-        } finally {
-            if (historicoJogo.getSize() != 0) {
-                actualizaVistaTabuleiro(historicoJogo.get(0));
-                return true;
-            }
-            else
-                return false;
         }
+        return false;
     }
 
     public void onClickCampoJogo(View view) {}
